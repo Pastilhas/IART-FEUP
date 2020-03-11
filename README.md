@@ -1,7 +1,7 @@
 # Inteligência Artificial @ FEUP  (Artificial Inteligence)
 
 Project for the IART class of MIEIC @ FEUP.
-Made by [João Campos](https://github.com/Pastilhas), [Rita Mota](https://github.com/atomatir) and [Simão Santos]().
+Made by [João Campos](https://github.com/Pastilhas), [Rita Mota](https://github.com/atomatir) and [Simão Santos](https://github.com/simao-santos).
 
 
 # Pivit
