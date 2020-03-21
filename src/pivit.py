@@ -3,6 +3,7 @@
 #
 ##################################################
 from dataclasses import dataclass
+from math import copysign
 
 @dataclass
 class Piece:
@@ -67,7 +68,19 @@ def generateBoard(side):
 
   return board
 
-# Print board in traditional style manner
+# Return piece in position (x,y)
+def getPiece(board,x,y):
+  piece = [p for p in board if (p.x == x and p.y == y)]
+  if len(piece) == 0:
+    return None
+  return piece[0]
+
+# Return board without piece in position (x,y)
+def removePiece(board,x,y):
+  new = [p for p in board if not (p.x == x and p.y == y)]
+  return new
+
+# Print board in traditional style
 def printBoard(board,side):
   x = 0
   y = 0
@@ -85,26 +98,26 @@ def printBoard(board,side):
     line = ''
     while x < side:
       line += separatorLf
-      piece = [p for p in board if (p.x == x and p.y == y)]
-      if len(piece) == 0:
+      piece = getPiece(board,x,y)
+      if piece == None:
         line += ' '
       else:
-        if piece[0].direction == 'y':
-          if piece[0].type == 'minion':
+        if piece.direction == 'y':
+          if piece.type == 'minion':
             char = '|'
           else:
             char = '\u256B'
         else:
-          if piece[0].type == 'minion':
+          if piece.type == 'minion':
             char = '\u2500'
           else:
             char = '\u256A'
 
-        if piece[0].player == 'A':
+        if piece.player == 'A':
           line += bcolors.BLUE + char + bcolors.ENDC
         else:
           line += bcolors.GREEN + char + bcolors.ENDC
-      board = [p for p in board if not (p.x == x and p.y == y)]
+      board = removePiece(board,x,y)
       line += separatorRt
       x += 1
     line += separatorLf
@@ -114,16 +127,75 @@ def printBoard(board,side):
 
   print(separatorLn)
 
-
-
-
-
 # Print baord in debug style
 def debugBoard(board):
   for p in board:
     print(p)
 
+# Change position of piece from (sx,sy) to (dx,dy)
+# Capture piece if destination is enemy piece
+def movePiece(board,sx,sy,dx,dy):
+  pieceToMove = getPiece(board,sx,sy)
+  if pieceToMove == None:
+    return False
+
+  if pieceToMove.direction == 'x' and sy == dy:
+    if pieceToMove.type == 'minion' and (sx-dx)%2 == 0:
+      return False
+    else:
+      inc = copysign(1,dx-sx)
+      i = sx + inc
+      while abs(i - dx) > 1:
+        if getPiece(board,i,sy) != None:
+          print(getPiece(board,i,sy))
+          return False
+        i += inc
+      destPiece = getPiece(board,dx,sy)
+      if destPiece != None:
+        if destPiece.player == pieceToMove.player:
+          return False
+        else:
+          removePiece(board,dx,sy)
+      pieceToMove.x = dx
+      print(pieceToMove)
+      return True
+
+  elif pieceToMove.direction == 'y' and sx == dx:
+    if pieceToMove.type == 'minion' and (sy-dy)%2 != 0:
+      return False
+    else:
+      inc = copysign(1,sy-dy)
+      i = sy + inc
+      while i != dy - inc:
+        if getPiece(board,sx,i) != None:
+          return False
+        i += inc
+      destPiece = getPiece(board,sx,dy)
+      if destPiece != None:
+        if destPiece.player == pieceToMove.player:
+          return False
+        else:
+          removePiece(board,sx,dy)
+      pieceToMove.y = dy
+      return True
+  else:
+    return False
+
 ##################################################
 
 board = generateBoard(6)
-printBoard(board,6)
+print('')
+print('')
+debugBoard(board)
+print('')
+print('')
+f = movePiece(board,0,1,1,1)
+if f:
+  print('moved piece')
+else:
+  print('nope')
+print('')
+print('')
+debugBoard(board)
+print('')
+print('')
