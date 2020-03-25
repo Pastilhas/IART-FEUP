@@ -135,6 +135,9 @@ def debugBoard(board):
 # Change position of piece from (sx,sy) to (dx,dy)
 # Capture piece if destination is enemy piece
 def movePiece(board,sx,sy,dx,dy):
+  if not (0 <= sx <= 6 and 0 <= sy <= 6 and 0 <= dx <= 6 and 0 <= dy <= 6):
+    return False
+
   pieceToMove = getPiece(board,sx,sy)
   if pieceToMove == None:
     return False
@@ -147,7 +150,6 @@ def movePiece(board,sx,sy,dx,dy):
       i = sx + inc
       while abs(i - dx) > 1:
         if getPiece(board,i,sy) != None:
-          print(getPiece(board,i,sy))
           return False
         i += inc
       destPiece = getPiece(board,dx,sy)
@@ -157,11 +159,10 @@ def movePiece(board,sx,sy,dx,dy):
         else:
           removePiece(board,dx,sy)
       pieceToMove.x = dx
-      print(pieceToMove)
       return True
 
   elif pieceToMove.direction == 'y' and sx == dx:
-    if pieceToMove.type == 'minion' and (sy-dy)%2 != 0:
+    if pieceToMove.type == 'minion' and (sy-dy)%2 == 0:
       return False
     else:
       inc = copysign(1,sy-dy)
@@ -186,7 +187,7 @@ def movePiece(board,sx,sy,dx,dy):
 board = generateBoard(6)
 print('')
 print('')
-printBoard(board,6)
+debugBoard(board)
 print('')
 print('')
 f = movePiece(board,0,1,1,1)
@@ -196,6 +197,16 @@ else:
   print('nope')
 print('')
 print('')
-printBoard(board,6)
+debugBoard(board)
+print('')
+print('')
+f = movePiece(board,1,0,1,1)
+if f:
+  print('moved piece')
+else:
+  print('nope')
+print('')
+print('')
+debugBoard(board)
 print('')
 print('')
