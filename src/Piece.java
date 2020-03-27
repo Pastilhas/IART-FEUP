@@ -36,5 +36,4 @@ public class Piece {
 
     return (color + character + RESET);
   }
-
 }

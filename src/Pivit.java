@@ -88,77 +88,65 @@ public class Pivit {
     }
   }
 
-  private boolean movePiece(Piece piece, int distance) {
-    System.out.println("Moving piece from player " + piece.player);
-    System.out.println("From position [" + piece.x + "," + piece.y + "]");
-    System.out.println("To position []");
-
+  public boolean isPossibleMove(Piece piece, int distance) {
     if (piece.direction == "x") {
-      if (piece.x + distance < 0 || (piece.x + distance) < size)
+      if (piece.x + distance < 0 || (piece.x + distance) > size) {
         return false;
-
-      else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
-        System.out.println("Minions can only move in odd distances");
+      } else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
         return false;
-      }
-
-      else {
+      } else {
         int inc = (int) Math.signum(distance);
-        int i = piece.x + inc;
-        while (Math.abs(i - distance) > 1) {
-          if (getPiece(i, piece.y) != null) {
-            System.out.println(getPiece(i, piece.y));
+        for(int i = inc; Math.abs(i - distance) > 1; i += inc) {
+          if (getPiece(piece.x + i, piece.y) != null) {
             return false;
           }
-          i += inc;
         }
       }
-
       Piece destPiece = getPiece(piece.x + distance, piece.y);
-      if (destPiece != null) {
-        if (destPiece.player == piece.player)
-          return false;
-        else {
-          removePiece(destPiece);
-          debugBoard();
-        }
-      }
-      piece.x += distance;
+      if (destPiece.player == piece.player) return false;
+
       return true;
     }
 
     else if (piece.direction == "y") {
-      if (piece.y + distance < 0 || (piece.y + distance) < size)
+      if (piece.y + distance < 0 || (piece.y + distance) > size) {
         return false;
-      else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
-        System.out.println("Minions can only move in odd distances");
+      } else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
         return false;
       } else {
         int inc = (int) Math.signum(distance);
-        int i = piece.x + inc;
-        while (Math.abs(i - distance) > 1) {
-          if (getPiece(piece.x, i) != null) {
-            System.out.println(getPiece(piece.x, i));
+        for(int i = inc; Math.abs(i - distance) > 1; i += inc) {
+          if (getPiece(piece.x, piece.y + i) != null) {
             return false;
           }
-          i += inc;
         }
       }
+      Piece destPiece = getPiece(piece.x + distance, piece.y);
+      if (destPiece.player == piece.player) return false;
 
-      Piece destPiece = getPiece(piece.x, distance);
-      if (destPiece != null) {
-        if (destPiece.player == piece.player)
-          return false;
-        else {
-          removePiece(destPiece);
-          debugBoard();
-        }
-      }
-      piece.y += distance;
       return true;
     }
 
     return false;
+  }
+
+  private void movePiece(Piece piece, int distance) {
+    System.out.println("Moving piece from player " + piece.player);
+    System.out.println("From position [" + piece.x + "," + piece.y + "]");
+    System.out.println("To position []");
+
+    if(isPossibleMove(piece, distance)) {
+      Piece destPiece = getPiece(piece.x + distance, piece.y);
+      if(destPiece != null) removePiece(destPiece);
+
+      if(piece.direction == "x") piece.x += distance;
+      else piece.y += distance;
+
+
+
+    } else {
+      System.out.println("Failed move");
+    }
   }
 
   private void removePiece(Piece p) {
