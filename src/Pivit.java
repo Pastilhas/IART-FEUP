@@ -24,7 +24,7 @@ public class Pivit {
 
   private Piece getPiece(int x, int y) {
     for (Piece piece : board) {
-      if(piece.x == x && piece.y == y)
+      if (piece.x == x && piece.y == y)
         return piece;
     }
 
@@ -91,25 +91,25 @@ public class Pivit {
   }
 
   private boolean movePiece(Piece piece, int distance ) {
-    
+
     System.out.println("Moving piece from player " + piece.player);
     System.out.println("From position [" + piece.x + ","+ piece.y +"]");
     System.out.println("To position []");
-  
+
     if (piece == null){
       System.out.println("That piece doesn't exist");
       return false;
     }
-  
+
     if (piece.direction == "x"){
       if (piece.x+distance < 0 || (piece.x+distance) < size)
         return false;
-  
+
       else if (piece.type == "minion" && Math.abs(distance)%2 == 0){
         System.out.println("Minions can only move in odd distances");
         return false;
       }
-  
+
       else{
         int inc = (int) Math.signum(distance);
         int i = piece.x + inc;
@@ -134,12 +134,12 @@ public class Pivit {
         piece.x += distance;
         return true;
     }
-    
+
     else if (piece.direction == "y"){
 
       if (piece.y+distance < 0 || (piece.y+distance) < size)
         return false;
-  
+
       else if (piece.type == "minion" && Math.abs(distance)%2 == 0){
         System.out.println("Minions can only move in odd distances");
         return false;
@@ -166,20 +166,14 @@ public class Pivit {
         debugBoard(board);
       }
     }
-      
-    piece.y += distance; 
+
+    piece.y += distance;
     return true;
     }
- }
-
-  // return;
+  }
 
   private void removePiece(Piece p) {
     board.remove(p);
-  }
-
-  private void getPiece(int x, int y) {
-
   }
 
   private void printBoard() {
