@@ -9,6 +9,10 @@ public class Pivit {
     int size = Integer.parseInt(args[0]);
     Pivit game = new Pivit(size);
     game.debugBoard();
+    if(game.movePiece(game.getPiece(0,1), 3)){
+      game.debugBoard();
+      game.printBoard();
+    }
   }
 
   ArrayList<Piece> board = new ArrayList<>();
@@ -94,8 +98,10 @@ public class Pivit {
     System.out.println("To position []");
 
     if (piece.direction == 'x') {
-      if (piece.x + distance < 0 || (piece.x + distance) < size)
+      if (piece.x + distance < 0 || (piece.x + distance) > size){
+        System.out.println("Invalid movement");
         return false;
+      }
 
       else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
         System.out.println("Minions can only move in odd distances");
@@ -124,7 +130,6 @@ public class Pivit {
         }
       }
       piece.x += distance;
-      return true;
     }
 
     else if (piece.direction == 'y') {
@@ -155,11 +160,22 @@ public class Pivit {
         }
       }
       piece.y += distance;
-      return true;
+      
     }
-
-    return false;
+    rotatePiece(piece);
+    return true;
+    
   }
+
+private boolean rotatePiece(Piece piece){
+  if(piece.direction == 'x')
+    piece.direction = 'y';
+  else if (piece.direction == 'y')
+    piece.direction = 'x';
+
+  else return false;
+  return true;
+}
 
   private void removePiece(Piece p) {
     board.remove(p);
