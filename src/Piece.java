@@ -27,8 +27,12 @@ public class Piece {
     if(player == "A") color = GREEN;
     else color = BLUE;
 
-    if(direction.equals("y")) character = "|";
-    else character = "-";
+    if(direction.equals("y"))
+      if(type.equals("minion")) character = "|";
+      else character = "?";
+    else
+    if(type.equals("minion")) character = "-";
+    else character = "=";
 
     return (color + character + RESET);
   }
