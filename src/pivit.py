@@ -26,7 +26,7 @@ class Board:
 
   # Return a start board with side 6 or 8, otherwise return []
   def generateBoard(self,side):
-    
+
     if side == 6:
       self.board.append(Piece(1, 0, 'A'))
       self.board.append(Piece(2, 0, 'B'))
@@ -105,7 +105,7 @@ class Board:
   def moveY(self, piece, dy):
     if piece.type == 'minion' and abs(piece.y-dy)%2 == 0:
       print("Minions can only move in odd distances")
-      return False 
+      return False
 
     else:
       inc = copysign(1,dy-piece.y)
@@ -131,11 +131,14 @@ class Board:
   # Change position of piece from (sx,sy) to (dx,dy)
   # Capture piece if destination is enemy piece
   def movePiece(self,sx,sy,dx,dy):
+    if not (0 <= sx <= 5 and 0 <= sx <= 5 and 0 <= sx <= 5 and 0 <= sx <= 5):
+      return False
+
     piece = getPiece(self.board,sx,sy)
     print("Moving piece from player " + piece.player)
     print("From position [" + str(sx) + "," + str(sy)+ "]")
     print("To position [" + str(dx) + "," + str(dy)+ "]")
-    
+
     if piece == None:
       print("There's no piece in that position")
       return False
@@ -284,8 +287,3 @@ debugBoard(board.board)
 printBoard(board.board,6)
 # print('')
 # print('')
-
-
-
-
-
