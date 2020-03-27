@@ -22,6 +22,16 @@ public class Pivit {
     printBoard();
   }
 
+  private Piece getPiece(int x, int y) {
+    for (Piece piece : board) {
+      if(piece.x == x && piece.y == y)
+        return piece;
+    }
+
+    // piece not found
+    return null;
+  }
+
   private void generateBoard(int size) {
     if (size == 6) {
       board.add(new Piece(0, 1, "A", "x", "minion"));
@@ -80,9 +90,89 @@ public class Pivit {
     }
   }
 
-  private void movePiece() {
+  private boolean movePiece(Piece piece, int distance ) {
+    
+    System.out.println("Moving piece from player " + piece.player);
+    System.out.println("From position [" + piece.x + ","+ piece.y +"]");
+    System.out.println("To position []");
+  
+    if (piece == null){
+      System.out.println("That piece doesn't exist");
+      return false;
+    }
+  
+    if (piece.direction == "x"){
+      if (piece.x+distance < 0 || (piece.x+distance) < size)
+        return false;
+  
+      else if (piece.type == "minion" && Math.abs(distance)%2 == 0){
+        System.out.println("Minions can only move in odd distances");
+        return false;
+      }
+  
+      else{
+        int inc = (int) Math.signum(distance);
+        int i = piece.x + inc;
+        while (Math.abs(i - distance) > 1){
+          if (getPiece(board,i,piece.y) != null){
+            System.out.println(getPiece(board,i,piece.y);
+            return false;
+          }
+        i += inc;
+        }
+      }
 
-  }
+      Piece destPiece = getPiece(board,piece.x+distance,piece.y);
+        if (destPiece != null){
+          if (destPiece.player == piece.player)
+            return false;
+          else{
+            removePiece(destPiece);
+            debugBoard(board);
+          }
+        }
+        piece.x += distance;
+        return true;
+    }
+    
+    else if (piece.direction == "y"){
+
+      if (piece.y+distance < 0 || (piece.y+distance) < size)
+        return false;
+  
+      else if (piece.type == "minion" && Math.abs(distance)%2 == 0){
+        System.out.println("Minions can only move in odd distances");
+        return false;
+      }
+
+      else{
+        int inc = (int) Math.signum(distance);
+        int i = piece.x + inc;
+        while (Math.abs(i - distance) > 1){
+          if (getPiece(board,piece.x,i) != null){
+            System.out.println(getPiece(board,piece.x, i));
+            return false;
+          }
+        i += inc;
+        }
+      }
+
+    Piece destPiece = getPiece(board,piece.x,distance);
+    if (destPiece != null){
+      if (destPiece.player == piece.player)
+      return false;
+      else{
+        removePiece(piece.x,distance);
+        debugBoard(board);
+      }
+    }
+      
+    piece.y += distance; 
+    return true;
+    }
+ }
+
+  // return;
 
   private void removePiece(Piece p) {
     board.remove(p);
