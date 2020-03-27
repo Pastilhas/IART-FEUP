@@ -9,38 +9,32 @@ public class Pivit {
     int size = Integer.parseInt(args[0]);
     Pivit game = new Pivit(size);
     game.debugBoard();
+
+    System.out.println("");
+    if (game.movePiece(game.getPiece(1, 0), 1)) {
+      game.debugBoard();
+      game.printBoard();
+    }
+
     System.out.println("");
     if (game.movePiece(game.getPiece(0, 1), 3)) {
       game.debugBoard();
       game.printBoard();
     }
+
     System.out.println("");
-    if (game.movePiece(game.getPiece(3, 1), 1)) {
+    if (game.movePiece(game.getPiece(2, 0), 3)) {
+      game.debugBoard();
+      game.printBoard();
+    }
+
+    System.out.println("");
+    if (game.movePiece(game.getPiece(2, 5), -3)) {
       game.debugBoard();
       game.printBoard();
     }
     System.out.println("");
-    if (game.movePiece(game.getPiece(3, 0), 1)) {
-      game.debugBoard();
-      game.printBoard();
-    }
-    System.out.println("");
-    if (game.movePiece(game.getPiece(3, 0), 1)) {
-      game.debugBoard();
-      game.printBoard();
-    }
-    System.out.println("");
-    if (game.movePiece(game.getPiece(3, 1), -1)) {
-      game.debugBoard();
-      game.printBoard();
-    }
-    System.out.println("");
-    if (game.movePiece(game.getPiece(2, 0), 1)) {
-      game.debugBoard();
-      game.printBoard();
-    }
-    System.out.println("");
-    if (game.movePiece(game.getPiece(2, 1), 1)) {
+    if (game.movePiece(game.getPiece(0, 1), 1)) {
       game.debugBoard();
       game.printBoard();
     }
@@ -52,17 +46,10 @@ public class Pivit {
   public Pivit(int size) {
     if (size != 6 && size != 8)
       System.exit(1);
+
     this.size = size;
     generateBoard(size);
     printBoard();
-  }
-
-  private Piece getPiece(int x, int y) {
-    for (Piece piece : board) {
-      if (piece.x == x && piece.y == y)
-        return piece;
-    }
-    return null;
   }
 
   private void generateBoard(int size) {
@@ -123,100 +110,149 @@ public class Pivit {
     }
   }
 
+  private Piece getPiece(int x, int y) {
+    for (Piece piece : board) {
+      if (piece.x == x && piece.y == y)
+        return piece;
+    }
+    return null;
+  }
+
+  private void removePiece(Piece p) {
+    board.remove(p);
+  }
+
+  private void rotatePiece(Piece piece) {
+    if (piece.direction == 'x')
+      piece.direction = 'y';
+    else if (piece.direction == 'y')
+      piece.direction = 'x';
+  }
+
+  private boolean isInCorner(Piece piece) {
+    int x = piece.x;
+    int y = piece.y;
+
+    if (x == 0 && y == 0)
+      return true;
+    if (x == (size - 1) && y == 0)
+      return true;
+    if (x == 0 && y == (size - 1))
+      return true;
+    if (x == (size - 1) && y == (size - 1))
+      return true;
+    return false;
+  }
+
+  private void promotePiece(Piece piece) {
+    if (piece.type == 'm')
+      piece.type = 'M';
+  }
+
+  private boolean moveHorizontal(Piece piece, int distance) {
+    System.out.println("Moving piece from player " + piece.player);
+    System.out.println("From position [" + piece.x + "," + piece.y + "]");
+    System.out.println("To position [" + (piece.x + distance) + "," + piece.y + "]");
+
+    if ((piece.x + distance) < 0 || (piece.x + distance) > (size - 1)) {
+      System.out.println("Invalid movement");
+      return false;
+    }
+
+    else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
+      System.out.println("Minions can only move in odd distances");
+      return false;
+    }
+
+    else {
+      int inc = (int) Math.signum(distance);
+      int i = piece.x + inc;
+      while (Math.abs(i - (piece.x + distance)) > 0) {
+        if (getPiece(i, piece.y) != null) {
+          System.out.print("This piece is in the way: ");
+          getPiece(i, piece.y).debug();
+          return false;
+        }
+        i += inc;
+      }
+    }
+
+    Piece destPiece = getPiece(piece.x + distance, piece.y);
+    if (destPiece != null) {
+      if (destPiece.player == piece.player)
+        return false;
+      else {
+        removePiece(destPiece);
+        debugBoard();
+      }
+    }
+    piece.x += distance;
+    return true;
+  }
+
+  private boolean moveVertical(Piece piece, int distance) {
+    System.out.println("Moving piece from player " + piece.player);
+    System.out.println("From position [" + piece.x + "," + piece.y + "]");
+    System.out.println("To position [" + piece.x + "," + (piece.y + distance) + "]");
+
+    if ((piece.y + distance) < 0 || (piece.y + distance) > (size - 1)) {
+      System.out.println("Invalid movement");
+      return false;
+    }
+
+    else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
+      System.out.println("Minions can only move in odd distances");
+      return false;
+    }
+
+    else {
+      int inc = (int) Math.signum(distance);
+      int i = piece.y + inc;
+      while (Math.abs(i - (piece.y + distance)) > 0) {
+        if (getPiece(piece.x, i) != null) {
+          System.out.print("This piece is in the way: ");
+          getPiece(piece.x, i).debug();
+          return false;
+        }
+        i += inc;
+      }
+
+    }
+    Piece destPiece = getPiece(piece.x, piece.y + distance);
+    if (destPiece != null) {
+      destPiece.debug();
+      if (destPiece.player == piece.player) {
+        return false;
+      } else {
+        removePiece(destPiece);
+        debugBoard();
+      }
+    }
+    piece.y += distance;
+    return true;
+  }
+
   private boolean movePiece(Piece piece, int distance) {
 
     if (piece == null)
       return false;
 
     if (piece.direction == 'x') {
-      System.out.println("Moving piece from player " + piece.player);
-      System.out.println("From position [" + piece.x + "," + piece.y + "]");
-      System.out.println("To position [" + (piece.x + distance) + "," + piece.y + "]");
-
-      if ((piece.x + distance) < 0 || (piece.x + distance) > size) {
-        System.out.println("Invalid movement");
-        return false;
-      }
-
-      else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
-        System.out.println("Minions can only move in odd distances");
-        return false;
-      }
-
-      else {
-        int inc = (int) Math.signum(distance);
-        int i = piece.x + inc;
-        while (Math.abs(i - (piece.x + distance)) > 1) {
-          if (getPiece(i, piece.y) != null) {
-            System.out.println(getPiece(i, piece.y));
-            return false;
-          }
-          i += inc;
-        }
-      }
-
-      Piece destPiece = getPiece(piece.x + distance, piece.y);
-      if (destPiece != null) {
-        if (destPiece.player == piece.player)
-          return false;
-        else {
-          removePiece(destPiece);
-          debugBoard();
-        }
-      }
-      piece.x += distance;
+      if(!moveHorizontal(piece, distance))
+      return false;
     }
-
+    
     else if (piece.direction == 'y') {
-      System.out.println("Moving piece from player " + piece.player);
-      System.out.println("From position [" + piece.x + "," + piece.y + "]");
-      System.out.println("To position [" + piece.x + "," + (piece.y + distance) + "]");
-
-      if ((piece.y + distance) < 0 || (piece.y + distance) > size) {
-        System.out.println("Invalid movement");
-        return false;
-      } else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
-        System.out.println("Minions can only move in odd distances");
-        return false;
-      } else {
-        int inc = (int) Math.signum(distance);
-        int i = piece.y + inc;
-        while (Math.abs(i - (piece.y + distance)) > 1) {
-          if (getPiece(piece.x, i) != null) {
-            getPiece(i, piece.y).debug();
-            return false;
-          }
-          i += inc;
-        }
-      }
-      Piece destPiece = getPiece(piece.x, piece.y + distance);
-      if (destPiece != null) {
-        destPiece.debug();
-        if (destPiece.player == piece.player) {
-          return false;
-        } else {
-          removePiece(destPiece);
-          debugBoard();
-        }
-      }
-      piece.y += distance;
-
+      if(!moveVertical(piece, distance))
+      return false;
     }
+    
+    if (isInCorner(piece)) {
+      promotePiece(piece);
+    }
+
     rotatePiece(piece);
     return true;
-  }
-
-private boolean rotatePiece(Piece piece){
-  if(piece.direction == 'x')
-    piece.direction = 'y';
-  else if (piece.direction == 'y')
-    piece.direction = 'x';
-
-    return true;
-  }
-
-  private void removePiece(Piece p) {
-    board.remove(p);
   }
 
   private void printBoard() {
