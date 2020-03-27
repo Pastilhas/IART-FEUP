@@ -2,14 +2,11 @@
  * Piece
  */
 public class Piece {
-  public static final String GREEN = "\033[92m";
-  public static final String BLUE = "\033[94m";
-  public static final String RESET = "\033[0m";
 
   int x, y;
-  String player, direction, type;
+  char player, direction, type;
 
-  public Piece(int x, int y, String player, String direction, String type) {
+  public Piece(int x, int y, char player, char direction, char type) {
     this.x = x;
     this.y = y;
     this.player = player;
@@ -22,15 +19,34 @@ public class Piece {
   }
 
   public String getChar() {
-    String color, character;
+    // default values (for debugging)
+    String color = ".";
+    char character = '?';
 
-    if(player == "A") color = GREEN;
-    else color = BLUE;
+    // piece color
+    if (player == 'A')
+      color = Constants.GREEN;
+    else
+      color = Constants.BLUE;
 
-    if(direction.equals("y")) character = "|";
-    else character = "-";
+    // piece direction and type
+    // vertical
+    if (direction == Constants.VERTICAL) {
+      if (type == Constants.MINION)
+        character = Constants.MINION_VERTICAL;
+      else if (type == Constants.MASTER)
+        character = Constants.MASTER_VERTICAL;
+    }
 
-    return (color + character + RESET);
+    // horizontal
+    else if (direction == Constants.HORIZONTAL) {
+      if (type == Constants.MINION)
+        character = Constants.MINION_HORIZONTAL;
+      else if (type == Constants.MASTER)
+        character = Constants.MASTER_HORIZONTAL;
+    }
+
+    return ("" + color + character + Constants.RESET);
   }
 
 }
