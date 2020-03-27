@@ -67,57 +67,57 @@ public class Pivit {
 
   private void generateBoard(int size) {
     if (size == 6) {
-      board.add(new Piece(0, 1, "A", "x", "minion"));
-      board.add(new Piece(0, 2, "B", "x", "minion"));
-      board.add(new Piece(0, 3, "A", "x", "minion"));
-      board.add(new Piece(0, 4, "B", "x", "minion"));
+      board.add(new Piece(0, 1, 'A', 'x', 'm'));
+      board.add(new Piece(0, 2, 'B', 'x', 'm'));
+      board.add(new Piece(0, 3, 'A', 'x', 'm'));
+      board.add(new Piece(0, 4, 'B', 'x', 'm'));
 
-      board.add(new Piece(1, 0, "B", "y", "minion"));
-      board.add(new Piece(2, 0, "A", "y", "minion"));
-      board.add(new Piece(3, 0, "B", "y", "minion"));
-      board.add(new Piece(4, 0, "A", "y", "minion"));
+      board.add(new Piece(1, 0, 'B', 'y', 'm'));
+      board.add(new Piece(2, 0, 'A', 'y', 'm'));
+      board.add(new Piece(3, 0, 'B', 'y', 'm'));
+      board.add(new Piece(4, 0, 'A', 'y', 'm'));
 
-      board.add(new Piece(5, 1, "A", "x", "minion"));
-      board.add(new Piece(5, 2, "B", "x", "minion"));
-      board.add(new Piece(5, 3, "A", "x", "minion"));
-      board.add(new Piece(5, 4, "B", "x", "minion"));
+      board.add(new Piece(5, 1, 'A', 'x', 'm'));
+      board.add(new Piece(5, 2, 'B', 'x', 'm'));
+      board.add(new Piece(5, 3, 'A', 'x', 'm'));
+      board.add(new Piece(5, 4, 'B', 'x', 'm'));
 
-      board.add(new Piece(1, 5, "B", "y", "minion"));
-      board.add(new Piece(2, 5, "A", "y", "minion"));
-      board.add(new Piece(3, 5, "B", "y", "minion"));
-      board.add(new Piece(4, 5, "A", "y", "minion"));
+      board.add(new Piece(1, 5, 'B', 'y', 'm'));
+      board.add(new Piece(2, 5, 'A', 'y', 'm'));
+      board.add(new Piece(3, 5, 'B', 'y', 'm'));
+      board.add(new Piece(4, 5, 'A', 'y', 'm'));
 
       return;
     }
 
     if (size == 8) {
-      board.add(new Piece(0, 1, "A", "x", "minion"));
-      board.add(new Piece(0, 2, "B", "x", "minion"));
-      board.add(new Piece(0, 3, "A", "x", "minion"));
-      board.add(new Piece(0, 4, "A", "x", "minion"));
-      board.add(new Piece(0, 5, "B", "x", "minion"));
-      board.add(new Piece(0, 6, "A", "x", "minion"));
+      board.add(new Piece(0, 1, 'A', 'x', 'm'));
+      board.add(new Piece(0, 2, 'B', 'x', 'm'));
+      board.add(new Piece(0, 3, 'A', 'x', 'm'));
+      board.add(new Piece(0, 4, 'A', 'x', 'm'));
+      board.add(new Piece(0, 5, 'B', 'x', 'm'));
+      board.add(new Piece(0, 6, 'A', 'x', 'm'));
 
-      board.add(new Piece(1, 0, "B", "y", "minion"));
-      board.add(new Piece(2, 0, "A", "y", "minion"));
-      board.add(new Piece(3, 0, "B", "y", "minion"));
-      board.add(new Piece(4, 0, "B", "y", "minion"));
-      board.add(new Piece(5, 0, "A", "y", "minion"));
-      board.add(new Piece(6, 0, "B", "y", "minion"));
+      board.add(new Piece(1, 0, 'B', 'y', 'm'));
+      board.add(new Piece(2, 0, 'A', 'y', 'm'));
+      board.add(new Piece(3, 0, 'B', 'y', 'm'));
+      board.add(new Piece(4, 0, 'B', 'y', 'm'));
+      board.add(new Piece(5, 0, 'A', 'y', 'm'));
+      board.add(new Piece(6, 0, 'B', 'y', 'm'));
 
-      board.add(new Piece(7, 1, "A", "x", "minion"));
-      board.add(new Piece(7, 2, "B", "x", "minion"));
-      board.add(new Piece(7, 3, "A", "x", "minion"));
-      board.add(new Piece(7, 4, "A", "x", "minion"));
-      board.add(new Piece(7, 5, "B", "x", "minion"));
-      board.add(new Piece(7, 6, "A", "x", "minion"));
+      board.add(new Piece(7, 1, 'A', 'x', 'm'));
+      board.add(new Piece(7, 2, 'B', 'x', 'm'));
+      board.add(new Piece(7, 3, 'A', 'x', 'm'));
+      board.add(new Piece(7, 4, 'A', 'x', 'm'));
+      board.add(new Piece(7, 5, 'B', 'x', 'm'));
+      board.add(new Piece(7, 6, 'A', 'x', 'm'));
 
-      board.add(new Piece(1, 7, "B", "y", "minion"));
-      board.add(new Piece(2, 7, "A", "y", "minion"));
-      board.add(new Piece(3, 7, "B", "y", "minion"));
-      board.add(new Piece(4, 7, "B", "y", "minion"));
-      board.add(new Piece(5, 7, "A", "y", "minion"));
-      board.add(new Piece(6, 7, "B", "y", "minion"));
+      board.add(new Piece(1, 7, 'B', 'y', 'm'));
+      board.add(new Piece(2, 7, 'A', 'y', 'm'));
+      board.add(new Piece(3, 7, 'B', 'y', 'm'));
+      board.add(new Piece(4, 7, 'B', 'y', 'm'));
+      board.add(new Piece(5, 7, 'A', 'y', 'm'));
+      board.add(new Piece(6, 7, 'B', 'y', 'm'));
 
       return;
     }
@@ -128,7 +128,7 @@ public class Pivit {
     if (piece == null)
       return false;
 
-    if (piece.direction == "x") {
+    if (piece.direction == 'x') {
       System.out.println("Moving piece from player " + piece.player);
       System.out.println("From position [" + piece.x + "," + piece.y + "]");
       System.out.println("To position [" + (piece.x + distance) + "," + piece.y + "]");
@@ -138,7 +138,7 @@ public class Pivit {
         return false;
       }
 
-      else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
+      else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
         System.out.println("Minions can only move in odd distances");
         return false;
       }
@@ -167,7 +167,7 @@ public class Pivit {
       piece.x += distance;
     }
 
-    else if (piece.direction == "y") {
+    else if (piece.direction == 'y') {
       System.out.println("Moving piece from player " + piece.player);
       System.out.println("From position [" + piece.x + "," + piece.y + "]");
       System.out.println("To position [" + piece.x + "," + (piece.y + distance) + "]");
@@ -175,7 +175,7 @@ public class Pivit {
       if ((piece.y + distance) < 0 || (piece.y + distance) > size) {
         System.out.println("Invalid movement");
         return false;
-      } else if (piece.type == "minion" && Math.abs(distance) % 2 == 0) {
+      } else if (piece.type == 'm' && Math.abs(distance) % 2 == 0) {
         System.out.println("Minions can only move in odd distances");
         return false;
       } else {
@@ -206,15 +206,11 @@ public class Pivit {
     return true;
   }
 
-  private boolean rotatePiece(Piece piece) {
-    if (piece.direction == "x") {
-      piece.direction = "y";
-    } else if (piece.direction == "y") {
-      piece.direction = "x";
-    }
-    else{
-      return false;
-    }
+private boolean rotatePiece(Piece piece){
+  if(piece.direction == 'x')
+    piece.direction = 'y';
+  else if (piece.direction == 'y')
+    piece.direction = 'x';
 
     return true;
   }
