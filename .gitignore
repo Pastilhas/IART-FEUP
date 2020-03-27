@@ -1,4 +1,11 @@
-#VSCODE
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+
+# VSCODE
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
