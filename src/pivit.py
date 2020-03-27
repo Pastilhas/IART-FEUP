@@ -75,32 +75,6 @@ class Board:
     new = [p for p in self.board if not (p.x == x and p.y == y)]
     self.board = new
 
-  # Change x-coordinate of piece to (dx)
-  def moveX(self, piece, dx):
-    if piece.type == 'minion' and abs(piece.x-dx)%2 == 0:
-      print("Minions can only move in odd distances")
-      return False
-
-    else:
-      inc = copysign(1,dx-piece.x)
-      i = piece.x + inc
-
-      while abs(i - dx) > 1:
-        if getPiece(self.board,i,piece.y) != None:
-          print(getPiece(self.board,i,piece.y))
-          return False
-        i += inc
-
-      destPiece = getPiece(self.board,dx,piece.y)
-      if destPiece != None:
-        if destPiece.player == piece.player:
-          return False
-        else:
-          self.removePiece(dx,piece.y)
-          debugBoard(self.board)
-      piece.x = dx
-      return True
-
   # Change y-coordinate of piece to (dy)
   def moveY(self, piece, dy):
     if piece.type == 'minion' and abs(piece.y-dy)%2 == 0:
