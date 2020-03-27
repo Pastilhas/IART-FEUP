@@ -131,7 +131,7 @@ class Board:
   # Change position of piece from (sx,sy) to (dx,dy)
   # Capture piece if destination is enemy piece
   def movePiece(self,sx,sy,dx,dy):
-    if not (0 <= sx <= 5 and 0 <= sx <= 5 and 0 <= sx <= 5 and 0 <= sx <= 5):
+    if not (0 <= sx <= self.side and 0 <= sx <= self.side and 0 <= sx <= self.side and 0 <= sx <= self.side):
       return False
 
     piece = getPiece(self.board,sx,sy)
