@@ -38,8 +38,10 @@ public class AggroAI {
 
   }
 
-  public void generateMove(Pivit board) {
+  public void generateMoves(Pivit game) {
+    for(Piece p : game.board) {
 
+    }
   }
 
 }
