@@ -149,6 +149,14 @@ public class Pivit {
       piece.type = 'M';
   }
 
+  private boolean isEnd() {
+    for (Piece piece : board) {
+      if (piece.type == 'm')
+        return false;
+    }
+    return true;
+  }
+
   private boolean moveHorizontal(Piece piece, int distance) {
     System.out.println("Moving piece from player " + piece.player);
     System.out.println("From position [" + piece.x + "," + piece.y + "]");
@@ -183,6 +191,7 @@ public class Pivit {
         return false;
       else {
         removePiece(destPiece);
+        if(isEnd()) System.exit(1);
         debugBoard();
       }
     }
@@ -225,6 +234,7 @@ public class Pivit {
         return false;
       } else {
         removePiece(destPiece);
+        if(isEnd()) System.exit(1);
         debugBoard();
       }
     }
@@ -238,17 +248,18 @@ public class Pivit {
       return false;
 
     if (piece.direction == 'x') {
-      if(!moveHorizontal(piece, distance))
-      return false;
+      if (!moveHorizontal(piece, distance))
+        return false;
     }
-    
+
     else if (piece.direction == 'y') {
-      if(!moveVertical(piece, distance))
-      return false;
+      if (!moveVertical(piece, distance))
+        return false;
     }
-    
+
     if (isInCorner(piece)) {
       promotePiece(piece);
+      if(isEnd()) System.exit(1);
     }
 
     rotatePiece(piece);
