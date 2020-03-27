@@ -21,6 +21,16 @@ public class Pivit {
     printBoard();
   }
 
+  private Piece getPiece(int x, int y) {
+    for (Piece piece : board) {
+      if(piece.x == x && piece.y == y)
+        return piece;
+    }
+
+    // piece not found
+    return null;
+  }
+
   private void generateBoard(int size) {
     if(size == 6) {
       board.add(new Piece(0,1,"A","x","minion"));
