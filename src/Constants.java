@@ -12,17 +12,17 @@ public final class Constants {
     public static final String RESET = "\033[0m";
 
     // ASCII
-    public static final char MINION_HORIZONTAL = '-';
-    public static final char MINION_VERTICAL = '|';
+    public static final String MINION_HORIZONTAL = "-";
+    public static final String MINION_VERTICAL = "|";
 
-    public static final char MASTER_HORIZONTAL = '=';
-    public static final char MASTER_VERTICAL = '!';
+    public static final String MASTER_HORIZONTAL = "=";
+    public static final String MASTER_VERTICAL = "!";
 
     // Direction
-    public static final char HORIZONTAL = 'x';
-    public static final char VERTICAL = 'y';
+    public static final String HORIZONTAL = "x";
+    public static final String VERTICAL = "y";
 
     // Type (minion or Master)
-    public static final char MINION = 'm';
-    public static final char MASTER = 'M';
+    public static final String MINION = "m";
+    public static final String MASTER = "M";
 }

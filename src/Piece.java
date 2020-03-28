@@ -4,9 +4,9 @@
 public class Piece {
 
   int x, y;
-  char player, direction, type;
+  String player, direction, type;
 
-  public Piece(int x, int y, char player, char direction, char type) {
+  public Piece(int x, int y, String player, String direction, String type) {
     this.x = x;
     this.y = y;
     this.player = player;
@@ -21,10 +21,10 @@ public class Piece {
   public String getChar() {
     // default values (for debugging)
     String color = ".";
-    char character = '?';
+    String character = "?";
 
     // piece color
-    if (player == 'A')
+    if (player == "A")
       color = Constants.GREEN;
     else
       color = Constants.BLUE;
@@ -47,5 +47,14 @@ public class Piece {
     }
 
     return ("" + color + character + Constants.RESET);
+  }
+
+  public void rotate() {
+    if(direction.equals("x")) direction = "y";
+    else direction = "x";
+  }
+
+  public void promote() {
+    type = "M";
   }
 }
