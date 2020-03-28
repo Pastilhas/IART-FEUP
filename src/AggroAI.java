@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-
 /**
  * AggroAI
  */
 public class AggroAI {
-  ArrayList<Move> possibleMoves;
+  Move currentState = new Move(0,0,null,0);
 
   static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
     if(depth == 0 || node.children.isEmpty()) {
@@ -38,10 +36,28 @@ public class AggroAI {
 
   }
 
-  public void generateMoves(Pivit game) {
+  public void generateMoves(Pivit game, String player) {
     for(Piece p : game.board) {
-
+      if(p.player != player) continue;
+      else {
+        int distance = -game.size;
+        while(distance < game.size) {
+          if(game.isPossibleMove(p, distance)) {
+            currentState.addChild(new Move(getReward(game,p,distance), 0, p, distance));
+          }
+        }
+      }
     }
+  }
+
+  public int getReward(Pivit game, Piece p, int distance) {
+    int reward = 0;
+
+    /*
+      TABLE OF OPERATIONS AND REWARDS
+    */
+
+    return reward;
   }
 
 }
