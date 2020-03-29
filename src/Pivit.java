@@ -4,24 +4,10 @@ import java.util.ArrayList;
  * pivit
  */
 public class Pivit {
-
-	public static void main(String[] args) {
-		int size = Integer.parseInt(args[0]);
-		Pivit game = new Pivit(size);
-		run(game);
-	}
-
-	public static void run(Pivit game) {
-		game.printBoard();
-		Minimax A = new Minimax(Constants.PLAYER_1, game);
-		A.generateChildMoves(A.startMove, 4);
-		A.printMoves(A.startMove, 0);
-	}
-
-	ArrayList<Piece> board = new ArrayList<>();
-	ArrayList<Piece> captured = new ArrayList<>();
-	int size;
-	String firstPromotePlayer;
+	private int size;
+	private String firstPromotePlayer;
+	private ArrayList<Piece> board = new ArrayList<>();
+	private ArrayList<Piece> captured = new ArrayList<>();
 
 	public Pivit(int size) {
 		if (size != 6 && size != 8) {
@@ -34,11 +20,25 @@ public class Pivit {
 	}
 
 	public Pivit(Pivit game) {
-		board = new ArrayList<>(game.board);
-		captured = new ArrayList<>(game.captured);
-		size = game.size;
-		firstPromotePlayer = game.firstPromotePlayer;
+		this.board = new ArrayList<>(game.board);
+		this.captured = new ArrayList<>(game.captured);
+		this.size = game.size;
+		this.firstPromotePlayer = game.firstPromotePlayer;
 	}
+
+
+	public int getSize() {
+		return this.size;
+	}
+
+	public ArrayList<Piece> getBoard() {
+		return this.board;
+	}
+
+	public ArrayList<Piece> getCaptured() {
+		return this.captured;
+	}
+
 
 	public void generateBoard(int size) {
 		if (size == 6) {

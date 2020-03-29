@@ -45,8 +45,8 @@ public class Minimax {
 		Pivit g = move.getGame();
 		int est_reward = 0;
 
-		for (Piece p : g.board) {
-			for (int d = -g.size + 1; d < g.size; d++) {
+		for (Piece p : g.getBoard()) {
+			for (int d = -g.getSize() + 1; d < g.getSize(); d++) {
 				if (g.isPossibleMove(p, d)) {
 					Pivit newG = new Pivit(g);
 					newG.movePiece(p, d);
@@ -63,7 +63,7 @@ public class Minimax {
 
 	public int getValue(Pivit game) {
 		int value = 0;
-		for (Piece p : game.captured) {
+		for (Piece p : game.getCaptured()) {
 			if (p.getPlayer().equals(player)) {
 				if (p.getType().equals(Constants.MINION))
 					value -= 1; // lose 1 pt for each friendly minion captured
