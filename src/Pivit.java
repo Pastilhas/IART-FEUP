@@ -24,8 +24,10 @@ public class Pivit {
   String firstPromotePlayer;
 
   public Pivit(int size) {
-    if (size != 6 && size != 8)
+    if (size != 6 && size != 8) {
+      System.out.println("The board can only be size 6 or 8.");
       System.exit(1);
+    }
 
     this.size = size;
     generateBoard(size);
