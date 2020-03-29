@@ -100,7 +100,7 @@ public class Pivit {
 
   public Piece getPiece(int x, int y) {
     for (Piece piece : board) {
-      if (piece.x == x && piece.y == y)
+      if (piece.getX() == x && piece.getY() == y)
         return piece;
     }
     return null;
@@ -112,61 +112,61 @@ public class Pivit {
   }
 
   public boolean isInCorner(Piece piece) {
-    if (piece.x == 0 && piece.y == 0)
+    if (piece.getX() == 0 && piece.getY() == 0)
       return true;
-    if (piece.x == (size - 1) && piece.y == 0)
+    if (piece.getX() == (size - 1) && piece.getY() == 0)
       return true;
-    if (piece.x == 0 && piece.y == (size - 1))
+    if (piece.getX() == 0 && piece.getY() == (size - 1))
       return true;
-    if (piece.x == (size - 1) && piece.y == (size - 1))
+    if (piece.getX() == (size - 1) && piece.getY() == (size - 1))
       return true;
     return false;
   }
 
   public boolean isEnd() {
     for (Piece piece : board) {
-      if (piece.type.equals(Constants.MINION))
+      if (piece.getType().equals(Constants.MINION))
         return false;
     }
     return true;
   }
 
   public boolean isPossibleMove(Piece piece, int distance) {
-    if (piece.direction.equals(Constants.HORIZONTAL)) {
-      if (piece.x + distance < 0 || (piece.x + distance) > size) {
+    if (piece.getDirection().equals(Constants.HORIZONTAL)) {
+      if (piece.getX() + distance < 0 || (piece.getX() + distance) > size) {
         return false;
-      } else if (piece.type.equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
+      } else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
         return false;
       } else {
         int inc = (int) Math.signum(distance);
         for (int i = inc; Math.abs(i - distance) > 1; i += inc) {
-          if (getPiece(piece.x + i, piece.y) != null) {
+          if (getPiece(piece.getX() + i, piece.getY()) != null) {
             return false;
           }
         }
       }
-      Piece destPiece = getPiece(piece.x + distance, piece.y);
+      Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
       if (destPiece != null)
-        if (destPiece.player == piece.player)
+        if (destPiece.getPlayer() == piece.getPlayer())
           return false;
 
       return true;
-    } else if (piece.direction == Constants.VERTICAL) {
-      if (piece.y + distance < 0 || (piece.y + distance) > size) {
+    } else if (piece.getDirection() == Constants.VERTICAL) {
+      if (piece.getY() + distance < 0 || (piece.getY() + distance) > size) {
         return false;
-      } else if (piece.type.equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
+      } else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
         return false;
       } else {
         int inc = (int) Math.signum(distance);
         for (int i = inc; Math.abs(i - distance) > 1; i += inc) {
-          if (getPiece(piece.x, piece.y + i) != null) {
+          if (getPiece(piece.getX(), piece.getY() + i) != null) {
             return false;
           }
         }
       }
-      Piece destPiece = getPiece(piece.x + distance, piece.y);
+      Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
       if (destPiece != null)
-        if (destPiece.player == piece.player)
+        if (destPiece.getPlayer() == piece.getPlayer())
           return false;
 
       return true;
@@ -177,10 +177,10 @@ public class Pivit {
   public void movePiece(Piece piece, int distance) {
     if (isPossibleMove(piece, distance)) {
       Piece destPiece;
-      if (piece.direction.equals(Constants.HORIZONTAL))
-        destPiece = getPiece(piece.x + distance, piece.y);
+      if (piece.getDirection().equals(Constants.HORIZONTAL))
+        destPiece = getPiece(piece.getX() + distance, piece.getY());
       else
-        destPiece = getPiece(piece.x, piece.y + distance);
+        destPiece = getPiece(piece.getX(), piece.getY() + distance);
 
       if (destPiece != null) {
         removePiece(destPiece);
@@ -188,10 +188,11 @@ public class Pivit {
           System.exit(1);
       }
 
-      if (piece.direction == Constants.HORIZONTAL)
-        piece.x += distance;
+      if (piece.getDirection() == Constants.HORIZONTAL)
+        piece.setX(piece.getX() + distance);
       else
-        piece.y += distance;
+        piece.setY(piece.getY() + distance);
+
 
       piece.rotate();
 

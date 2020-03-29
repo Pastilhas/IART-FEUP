@@ -62,13 +62,13 @@ public class Minimax {
   public int getValue(Pivit game) {
     int value = 0;
     for (Piece p : game.captured) {
-      if (p.player.equals(player)) {
-        if (p.type.equals(Constants.MINION))
+      if (p.getPlayer().equals(player)) {
+        if (p.getType().equals(Constants.MINION))
           value -= 1; // lose 1 pt for each friendly minion captured
         else
           value -= 2; // lose 2 pt for each friendly master captured
       } else {
-        if (p.type.equals(Constants.MINION))
+        if (p.getType().equals(Constants.MINION))
           value += 1; // gain 1 pt for each rival minion captured
         else
           value += 2; // gain 2 pt for each rival master captured

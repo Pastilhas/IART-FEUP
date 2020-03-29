@@ -1,67 +1,107 @@
 public class Piece {
 
-  int x, y;
-  String player, direction, type;
+    private int x, y;
+    private String player, direction, type;
 
-  /*
-  *   "x" and "y", coordinates of the piece
-  *   "player", player 1 or 2
-  *   "direction", horizontal or vertical
-  *   "type", minion or master 
-  */
-  public Piece(int x, int y, String player, String direction, String type) {
-    this.x = x;
-    this.y = y;
-    this.player = player;
-    this.direction = direction;
-    this.type = type;
-  }
-
-  public void debug() {
-    System.out.println("P (" + x + "," + y + ") " + "[" + player + "," + direction + "," + type + "]");
-  }
-
-  public String getChar() {
-    // default values (for debugging)
-    String color = ".";
-    String character = "?";
-
-    // piece color
-    if (player.equals(Constants.PLAYER_1))
-      color = Constants.GREEN;
-    else
-      color = Constants.BLUE;
-
-    // piece direction and type
-    // vertical
-    if (direction == Constants.VERTICAL) {
-      if (type == Constants.MINION)
-        character = Constants.MINION_VERTICAL;
-      else if (type == Constants.MASTER)
-        character = Constants.MASTER_VERTICAL;
+    /*
+     * "x" and "y", coordinates of the piece "player", player 1 or 2 "direction",
+     * horizontal or vertical "type", minion or master
+     */
+    public Piece(int x, int y, String player, String direction, String type) {
+        this.x = x;
+        this.y = y;
+        this.player = player;
+        this.direction = direction;
+        this.type = type;
     }
 
-    // horizontal
-    else if (direction == Constants.HORIZONTAL) {
-      if (type == Constants.MINION)
-        character = Constants.MINION_HORIZONTAL;
-      else if (type == Constants.MASTER)
-        character = Constants.MASTER_HORIZONTAL;
+
+    public int getX() {
+        return this.x;
     }
 
-    return ("" + color + character + Constants.RESET);
-  }
+    public void setX(int x) {
+        this.x = x;
+    }
 
-  // when any piece is moved, it rotates 90º
-  public void rotate() {
-    if (direction.equals(Constants.HORIZONTAL))
-      direction = Constants.VERTICAL;
-    else
-      direction = Constants.HORIZONTAL;
-  }
+    public int getY() {
+        return this.y;
+    }
 
-  // when a "Minion" piece reaches a corner, it becomes a "Master"
-  public void promote() {
-    type = Constants.MASTER;
-  }
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public String getPlayer() {
+        return this.player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
+    public String getDirection() {
+        return this.direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    public void debug() {
+        System.out.println("P (" + x + "," + y + ") " + "[" + player + "," + this.direction + "," + this.type + "]");
+    }
+
+    public String getChar() {
+        // default values (for debugging)
+        String color = ".";
+        String character = "?";
+
+        // piece color
+        if (player.equals(Constants.PLAYER_1))
+            color = Constants.GREEN;
+        else
+            color = Constants.BLUE;
+
+        // piece direction and type
+        // vertical
+        if (this.direction == Constants.VERTICAL) {
+            if (this.type == Constants.MINION)
+                character = Constants.MINION_VERTICAL;
+            else if (this.type == Constants.MASTER)
+                character = Constants.MASTER_VERTICAL;
+        }
+
+        // horizontal
+        else if (this.direction == Constants.HORIZONTAL) {
+            if (this.type == Constants.MINION)
+                character = Constants.MINION_HORIZONTAL;
+            else if (this.type == Constants.MASTER)
+                character = Constants.MASTER_HORIZONTAL;
+        }
+
+        return (color + character + Constants.RESET);
+    }
+
+    // when any piece is moved, it rotates 90º
+    public void rotate() {
+        if (this.direction.equals(Constants.HORIZONTAL))
+            this.direction = Constants.VERTICAL;
+        else
+            this.direction = Constants.HORIZONTAL;
+    }
+
+    // when a "Minion" piece reaches a corner, it becomes a "Master"
+    public void promote() {
+        this.type = Constants.MASTER;
+    }
 }
