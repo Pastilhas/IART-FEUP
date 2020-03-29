@@ -65,7 +65,7 @@ public class Pivit {
       return;
     }
 
-    if (size == 8) {
+    else if (size == 8) {
       board.add(new Piece(0, 1, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
       board.add(new Piece(0, 2, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
       board.add(new Piece(0, 3, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));

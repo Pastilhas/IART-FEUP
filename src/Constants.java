@@ -1,10 +1,6 @@
 
 public final class Constants {
 
-    // private Constants() {
-    //     // restrict instantiation
-    // }
-
     // ---- PIECE ----
     // colors
     public static final String GREEN = "\033[92m";

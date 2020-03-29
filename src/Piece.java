@@ -3,6 +3,12 @@ public class Piece {
   int x, y;
   String player, direction, type;
 
+  /*
+  *   "x" and "y", coordinates of the piece
+  *   "player", player 1 or 2
+  *   "direction", horizontal or vertical
+  *   "type", minion or master 
+  */
   public Piece(int x, int y, String player, String direction, String type) {
     this.x = x;
     this.y = y;
@@ -46,6 +52,7 @@ public class Piece {
     return ("" + color + character + Constants.RESET);
   }
 
+  // when any piece is moved, it rotates 90º
   public void rotate() {
     if (direction.equals(Constants.HORIZONTAL))
       direction = Constants.VERTICAL;
@@ -53,6 +60,7 @@ public class Piece {
       direction = Constants.HORIZONTAL;
   }
 
+  // when a "Minion" piece reaches a corner, it becomes a "Master"
   public void promote() {
     type = Constants.MASTER;
   }
