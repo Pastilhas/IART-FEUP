@@ -1,5 +1,7 @@
 public class Minimax {
-
+	Move startMove;
+	String player;
+	
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
@@ -29,9 +31,6 @@ public class Minimax {
 			return beta_;
 		}
 	}
-
-	Move startMove;
-	String player;
 
 	public Minimax(String pl, Pivit game) {
 		player = pl;
