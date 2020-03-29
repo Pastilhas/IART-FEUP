@@ -21,7 +21,7 @@ public class Piece {
     String character = "?";
 
     // piece color
-    if (player.equals("A"))
+    if (player.equals(Constants.PLAYER_1))
       color = Constants.GREEN;
     else
       color = Constants.BLUE;
@@ -47,13 +47,13 @@ public class Piece {
   }
 
   public void rotate() {
-    if (direction.equals("x"))
-      direction = "y";
+    if (direction.equals(Constants.HORIZONTAL))
+      direction = Constants.VERTICAL;
     else
-      direction = "x";
+      direction = Constants.HORIZONTAL;
   }
 
   public void promote() {
-    type = "M";
+    type = Constants.MASTER;
   }
 }
