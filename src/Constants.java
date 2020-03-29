@@ -25,4 +25,8 @@ public final class Constants {
     // Type (minion or Master)
     public static final String MINION = "m";
     public static final String MASTER = "M";
+
+    // Player
+    public static final String PLAYER_1 = "A";
+    public static final String PLAYER_2 = "B";
 }
