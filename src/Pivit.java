@@ -13,28 +13,15 @@ public class Pivit {
 
   public static void run(Pivit game) {
     game.printBoard();
-
-    Piece p = game.getPiece(0, 1);
-    if(p != null) {
-      game.movePiece(p, 1);
-      game.printBoard();
-    }
-
-    p = game.getPiece(1, 0);
-    if(p != null) {
-      game.movePiece(p, 1);
-      game.printBoard();
-    }
-
-    p = game.getPiece(1, 1);
-    if(p != null) {
-      game.movePiece(p, -1);
-      game.printBoard();
-    }
+    Minimax A = new Minimax("A", game);
+    A.generateChildMoves(A.startMove, 4);
+    A.printMoves(A.startMove, 0);
   }
 
   ArrayList<Piece> board = new ArrayList<>();
+  ArrayList<Piece> captured = new ArrayList<>();
   int size;
+  String firstPromotePlayer;
 
   public Pivit(int size) {
     if (size != 6 && size != 8)
@@ -44,7 +31,14 @@ public class Pivit {
     generateBoard(size);
   }
 
-  private void generateBoard(int size) {
+  public Pivit(Pivit game) {
+    board = new ArrayList<>(game.board);
+    captured = new ArrayList<>(game.captured);
+    size = game.size;
+    firstPromotePlayer = game.firstPromotePlayer;
+  }
+
+  public void generateBoard(int size) {
     if (size == 6) {
       board.add(new Piece(0, 1, "A", "x", "m"));
       board.add(new Piece(0, 2, "B", "x", "m"));
@@ -102,7 +96,7 @@ public class Pivit {
     }
   }
 
-  private Piece getPiece(int x, int y) {
+  public Piece getPiece(int x, int y) {
     for (Piece piece : board) {
       if (piece.x == x && piece.y == y)
         return piece;
@@ -110,11 +104,12 @@ public class Pivit {
     return null;
   }
 
-  private void removePiece(Piece p) {
+  public void removePiece(Piece p) {
+    captured.add(p);
     board.remove(p);
   }
 
-  private boolean isInCorner(Piece piece) {
+  public boolean isInCorner(Piece piece) {
     if (piece.x == 0 && piece.y == 0)
       return true;
     if (piece.x == (size - 1) && piece.y == 0)
@@ -126,7 +121,7 @@ public class Pivit {
     return false;
   }
 
-  private boolean isEnd() {
+  public boolean isEnd() {
     for (Piece piece : board) {
       if (piece.type.equals("m"))
         return false;
@@ -149,7 +144,7 @@ public class Pivit {
         }
       }
       Piece destPiece = getPiece(piece.x + distance, piece.y);
-      if(destPiece != null)
+      if (destPiece != null)
         if (destPiece.player == piece.player)
           return false;
 
@@ -168,21 +163,22 @@ public class Pivit {
         }
       }
       Piece destPiece = getPiece(piece.x + distance, piece.y);
-      if (destPiece.player == piece.player)
-        return false;
+      if (destPiece != null)
+        if (destPiece.player == piece.player)
+          return false;
 
       return true;
     } else
       return false;
   }
 
-  private void movePiece(Piece piece, int distance) {
-    System.out.println("Moving (" + piece.x + "," + piece.y + ")");
-
+  public void movePiece(Piece piece, int distance) {
     if (isPossibleMove(piece, distance)) {
       Piece destPiece;
-      if(piece.direction.equals("x")) destPiece = getPiece(piece.x+distance, piece.y);
-      else destPiece = getPiece(piece.x, piece.y+distance);
+      if (piece.direction.equals("x"))
+        destPiece = getPiece(piece.x + distance, piece.y);
+      else
+        destPiece = getPiece(piece.x, piece.y + distance);
 
       if (destPiece != null) {
         removePiece(destPiece);
@@ -190,8 +186,10 @@ public class Pivit {
           System.exit(1);
       }
 
-      if (piece.direction == "x") piece.x += distance;
-      else piece.y += distance;
+      if (piece.direction == "x")
+        piece.x += distance;
+      else
+        piece.y += distance;
 
       piece.rotate();
 
@@ -200,12 +198,10 @@ public class Pivit {
         if (isEnd())
           System.exit(1);
       }
-    } else {
-      System.out.println("Failed move");
     }
   }
 
-  private void printBoard() {
+  public void printBoard() {
     String separatorLine = "+---+---+---+---+---+---+";
     String separatorLeft = "| ";
     String separatorRight = " ";
@@ -232,7 +228,7 @@ public class Pivit {
     System.out.println(separatorLine);
   }
 
-  private void debugBoard() {
+  public void debugBoard() {
     for (Piece p : this.board) {
       p.debug();
     }

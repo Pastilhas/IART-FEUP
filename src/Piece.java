@@ -1,6 +1,3 @@
-/**
- * Piece
- */
 public class Piece {
 
   int x, y;
@@ -24,7 +21,7 @@ public class Piece {
     String character = "?";
 
     // piece color
-    if (player == "A")
+    if (player.equals("A"))
       color = Constants.GREEN;
     else
       color = Constants.BLUE;
@@ -50,8 +47,10 @@ public class Piece {
   }
 
   public void rotate() {
-    if(direction.equals("x")) direction = "y";
-    else direction = "x";
+    if (direction.equals("x"))
+      direction = "y";
+    else
+      direction = "x";
   }
 
   public void promote() {
