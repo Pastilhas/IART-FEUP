@@ -226,6 +226,7 @@ public class Pivit {
 		return;
 	}
 
+	// checks if the piece exists in the board
 	public Piece getPiece(int x, int y) {
 		for (Piece piece : this.board) {
 			if (piece.getX() == x && piece.getY() == y)
@@ -234,11 +235,14 @@ public class Pivit {
 		return null;
 	}
 
+	// removes a piece from the board
+	// and adds it to the captured list
 	public void removePiece(Piece p) {
 		this.captured.add(p);
 		this.board.remove(p);
 	}
 
+	// checks if the piece is in the corner, by verifying it's coordinates
 	public boolean isInCorner(Piece piece) {
 		if (piece.getX() == 0 && piece.getY() == 0)
 			return true;
@@ -334,6 +338,8 @@ public class Pivit {
 
 			if (isInCorner(piece)) {
 				piece.promote();
+				// To store who got the first 'Master' (not tested)
+				this.firstPromotePlayer = this.firstPromotePlayer == null ? piece.getPlayer() : this.firstPromotePlayer;
 				if (isEnd())
 					System.exit(1);
 			}
