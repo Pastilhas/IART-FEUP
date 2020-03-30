@@ -13,14 +13,14 @@ public class Pivit {
 		}
 
 		this.size = size;
-		int players = 3;
+		int players = 2;
 
 		if (size == 6)
 			generateBoard_6();
 		else {
 			switch (players) {
 				case 2:
-					// generateBoard_8_Players_2();
+					generateBoard_8_Players_2();
 					break;
 				case 3:
 					generateBoard_8_Players_3();
@@ -84,6 +84,49 @@ public class Pivit {
 				board.add(new Piece(5, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
 			else
 				board.add(new Piece(5, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		return;
+	}
+
+	// this board generator is only valid for 2 players
+	public void generateBoard_8_Players_2() {
+		// 7 = 8 (size) - 1
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(coor, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(coor, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(coor, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(coor, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(coor, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(coor, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(0, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(0, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(0, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(7, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(7, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(7, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
 		}
 
 		return;
