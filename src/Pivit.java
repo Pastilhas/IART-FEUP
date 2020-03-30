@@ -228,7 +228,7 @@ public class Pivit {
 
 
 	public Piece getPiece(int x, int y) {
-		for (Piece piece : board) {
+		for (Piece piece : this.board) {
 			if (piece.getX() == x && piece.getY() == y)
 				return piece;
 		}
@@ -236,8 +236,8 @@ public class Pivit {
 	}
 
 	public void removePiece(Piece p) {
-		captured.add(p);
-		board.remove(p);
+		this.captured.add(p);
+		this.board.remove(p);
 	}
 
 	public boolean isInCorner(Piece piece) {
