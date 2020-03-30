@@ -6,7 +6,7 @@ public class Pivit {
 	private ArrayList<Piece> board = new ArrayList<>();
 	private ArrayList<Piece> captured = new ArrayList<>();
 
-	public Pivit(int size) {
+	public Pivit(int size, Constants.GameMode gameMode) {
 		if (size != 6 && size != 8) {
 			System.out.println("The board can only be size 6 or 8.");
 			System.exit(1);
@@ -268,8 +268,8 @@ public class Pivit {
 		return true;
 	}
 
-	// A 'Minion' can only move in odd number of cells, the same is not true for a
-	// 'Master'
+	// A 'Minion' can only move in odd number of cells,
+	// the same is not true for a 'Master'.
 	// Nor 'Minion' nor 'Master' can jump over other pieces
 	public boolean isPossibleMove(Piece piece, int distance) {
 		if (piece.getDirection().equals(Constants.HORIZONTAL)) {
@@ -311,8 +311,8 @@ public class Pivit {
 					return false;
 
 			return true;
-		} else
-			return false;
+		}
+		return false;
 	}
 
 	public void movePiece(Piece piece, int distance) {
@@ -386,6 +386,15 @@ public class Pivit {
 		for (Piece p : this.board) {
 			p.debug();
 		}
+	}
+
+	public Constants.GameState run() {
+		this.printBoard();
+		Minimax A = new Minimax(Constants.PLAYER_1, this);
+		A.generateChildMoves(A.startMove, 4);
+		A.printMoves(A.startMove, 0);
+
+		return Constants.GameState.MENU_STATE;
 	}
 
 }

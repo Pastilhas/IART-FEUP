@@ -1,6 +1,18 @@
 
 public final class Constants {
 
+    public enum GameState {
+        MENU_STATE,
+        MAINGAME_STATE,
+        EXIT
+    }
+
+    public enum GameMode {
+        PVP,
+        PVB,
+        BVB
+    }
+
     // ---- PIECE ----
     // background color
     public static final String RED_BACKGROUND = "\u001B[41m";
