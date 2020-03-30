@@ -15,7 +15,6 @@ public class Piece {
         this.type = type;
     }
 
-
     public int getX() {
         return this.x;
     }
@@ -56,7 +55,6 @@ public class Piece {
         this.type = type;
     }
 
-
     public void debug() {
         System.out.println("P (" + x + "," + y + ") " + "[" + player + "," + this.direction + "," + this.type + "]");
     }
@@ -69,8 +67,12 @@ public class Piece {
         // piece color
         if (player.equals(Constants.PLAYER_1))
             color = Constants.GREEN;
-        else
-            color = Constants.BLUE;
+        else if (player.equals(Constants.PLAYER_2))
+            color = Constants.YELLOW;
+        else if (player.equals(Constants.PLAYER_3))
+            color = Constants.CYAN;
+        else if (player.equals(Constants.PLAYER_4))
+            color = Constants.PURPLE;
 
         // piece direction and type
         // vertical

@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * pivit
- */
 public class Pivit {
 	private int size;
 	private String firstPromotePlayer;
@@ -16,7 +13,25 @@ public class Pivit {
 		}
 
 		this.size = size;
-		generateBoard(size);
+		int players = 3;
+
+		if (size == 6)
+			generateBoard_6();
+		else {
+			switch (players) {
+				case 2:
+					// generateBoard_8_Players_2();
+					break;
+				case 3:
+					generateBoard_8_Players_3();
+					break;
+				case 4:
+					generateBoard_8_Players_4();
+					break;
+				default:
+				break;
+			}
+		}
 	}
 
 	public Pivit(Pivit game) {
@@ -25,7 +40,6 @@ public class Pivit {
 		this.size = game.size;
 		this.firstPromotePlayer = game.firstPromotePlayer;
 	}
-
 
 	public int getSize() {
 		return this.size;
@@ -39,64 +53,136 @@ public class Pivit {
 		return this.captured;
 	}
 
+	// this board generator is only valid for 2 players
+	// "for learning or fast games"
+	public void generateBoard_6() {
+		// 5 = 6 (size) - 1
 
-	public void generateBoard(int size) {
-		if (size == 6) {
-			board.add(new Piece(0, 1, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 2, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 3, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 4, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-
-			board.add(new Piece(1, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(2, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(3, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(4, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-
-			board.add(new Piece(5, 1, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(5, 2, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(5, 3, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(5, 4, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-
-			board.add(new Piece(1, 5, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(2, 5, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(3, 5, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(4, 5, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-
-			return;
+		for (int coor = 1; coor < 5; coor++) {
+			if ((coor - 1) % 2 == 0)
+				board.add(new Piece(coor, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else
+				board.add(new Piece(coor, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
 		}
 
-		else if (size == 8) {
-			board.add(new Piece(0, 1, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 2, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 3, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 4, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 5, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(0, 6, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-
-			board.add(new Piece(1, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(2, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(3, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(4, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(5, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(6, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-
-			board.add(new Piece(7, 1, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(7, 2, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(7, 3, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(7, 4, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(7, 5, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
-			board.add(new Piece(7, 6, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
-
-			board.add(new Piece(1, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(2, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(3, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(4, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(5, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
-			board.add(new Piece(6, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
-
-			return;
+		for (int coor = 1; coor < 5; coor++) {
+			if ((coor - 1) % 2 == 0)
+				board.add(new Piece(coor, 5, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else
+				board.add(new Piece(coor, 5, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
 		}
+
+		for (int coor = 1; coor < 5; coor++) {
+			if ((coor - 1) % 2 == 0)
+				board.add(new Piece(0, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else
+				board.add(new Piece(0, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 5; coor++) {
+			if ((coor - 1) % 2 == 0)
+				board.add(new Piece(5, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else
+				board.add(new Piece(5, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		return;
 	}
+
+	// this board generator is only valid for 3 players
+	public void generateBoard_8_Players_3() {
+		// 7 = 8 (size) - 1
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(coor, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(coor, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(coor, 0, Constants.PLAYER_3, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(coor, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(coor, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(coor, 7, Constants.PLAYER_3, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(0, coor, Constants.PLAYER_3, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(0, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(0, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 3 == 0)
+				board.add(new Piece(7, coor, Constants.PLAYER_3, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 1)
+				board.add(new Piece(7, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 3 == 2)
+				board.add(new Piece(7, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		return;
+	}
+
+	// this board generator is only valid for 4 players
+	public void generateBoard_8_Players_4() {
+		// 7 = 8 (size) - 1
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 4 == 0)
+				board.add(new Piece(coor, 0, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 1)
+				board.add(new Piece(coor, 0, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 2)
+				board.add(new Piece(coor, 0, Constants.PLAYER_3, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 3)
+				board.add(new Piece(coor, 0, Constants.PLAYER_4, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 4 == 0)
+				board.add(new Piece(coor, 7, Constants.PLAYER_1, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 1)
+				board.add(new Piece(coor, 7, Constants.PLAYER_2, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 2)
+				board.add(new Piece(coor, 7, Constants.PLAYER_3, Constants.VERTICAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 3)
+				board.add(new Piece(coor, 7, Constants.PLAYER_4, Constants.VERTICAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 4 == 0)
+				board.add(new Piece(0, coor, Constants.PLAYER_3, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 1)
+				board.add(new Piece(0, coor, Constants.PLAYER_4, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 2)
+				board.add(new Piece(0, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 3)
+				board.add(new Piece(0, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		for (int coor = 1; coor < 7; coor++) {
+			if ((coor - 1) % 4 == 0)
+				board.add(new Piece(7, coor, Constants.PLAYER_3, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 1)
+				board.add(new Piece(7, coor, Constants.PLAYER_4, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 2)
+				board.add(new Piece(7, coor, Constants.PLAYER_1, Constants.HORIZONTAL, Constants.MINION));
+			else if ((coor - 1) % 4 == 3)
+				board.add(new Piece(7, coor, Constants.PLAYER_2, Constants.HORIZONTAL, Constants.MINION));
+		}
+
+		return;
+	}
+
 
 	public Piece getPiece(int x, int y) {
 		for (Piece piece : board) {

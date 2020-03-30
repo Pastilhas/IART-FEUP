@@ -2,14 +2,21 @@
 public final class Constants {
 
     // ---- PIECE ----
+    // background color
+    public static final String RED_BACKGROUND = "\u001B[41m";
+    public static final String BLACK_BACKGROUND = "\u001B[40m";
+
+    // ---- PIECE ----
     // colors
-    public static final String GREEN = "\033[92m";
-    public static final String BLUE = "\033[94m";
-    public static final String RESET = "\033[0m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String RESET = "\u001B[0m";
 
     // ASCII
-    public static final String MINION_HORIZONTAL = "-";
-    public static final String MINION_VERTICAL = "|";
+    public static final String MINION_HORIZONTAL = "H";
+    public static final String MINION_VERTICAL = "V";
 
     public static final String MASTER_HORIZONTAL = "=";
     public static final String MASTER_VERTICAL = "!";
@@ -25,4 +32,6 @@ public final class Constants {
     // Player
     public static final String PLAYER_1 = "A";
     public static final String PLAYER_2 = "B";
+    public static final String PLAYER_3 = "C";
+    public static final String PLAYER_4 = "D";
 }
