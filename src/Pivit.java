@@ -355,6 +355,7 @@ public class Pivit {
 				line += separatorLeft;
 				Piece p = getPiece(x, y);
 
+				// checks if it's odd or even
 				if (((x + y) & 1) == 0)
 					line += Constants.RED_BACKGROUND;
 				else
