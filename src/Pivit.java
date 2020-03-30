@@ -252,15 +252,16 @@ public class Pivit {
 	}
 
 	public boolean isEnd() {
+		// String player = "NOBODY";
 		for (Piece piece : board) {
 			if (piece.getType().equals(Constants.MINION))
 				return false;
-			else {
-				System.out.println(piece.getPlayer() + " Player " + " wins!");
-				return true;
-			}
+			// else {
+			// player = piece.getPlayer();
+			// }
 		}
-		return false;
+		// System.out.println(player + " Player " + " wins!");
+		return true;
 	}
 
 	// A 'Minion' can only move in odd number of cells, the same is not true for a
@@ -343,21 +344,29 @@ public class Pivit {
 		String separatorLine = "+---+---+---+---+---+---+";
 		String separatorLeft = "| ";
 		String separatorRight = " ";
-		if (size == 8) {
+		if (this.size == 8) {
 			separatorLine += "---+---+";
 		}
 
-		for (int y = 0; y < size; y++) {
+		for (int y = 0; y < this.size; y++) {
 			System.out.println(separatorLine);
 			String line = "";
-			for (int x = 0; x < size; x++) {
+			for (int x = 0; x < this.size; x++) {
 				line += separatorLeft;
 				Piece p = getPiece(x, y);
+
+				if (((x + y) & 1) == 0)
+					line += Constants.RED_BACKGROUND;
+				else
+					line += Constants.BLACK_BACKGROUND;
+
 				if (p == null) {
 					line += " ";
 				} else {
 					line += p.getChar();
 				}
+				line += Constants.RESET;
+
 				line += separatorRight;
 			}
 			line += separatorLeft;
