@@ -30,8 +30,8 @@ public final class Constants {
     public static final String MASTER = "M";
 
     // Player
-    public static final String PLAYER_1 = "A";
-    public static final String PLAYER_2 = "B";
-    public static final String PLAYER_3 = "C";
-    public static final String PLAYER_4 = "D";
+    public static final String PLAYER_1 = "GREEN";
+    public static final String PLAYER_2 = "YELLOW";
+    public static final String PLAYER_3 = "CYAN";
+    public static final String PLAYER_4 = "PURPLE";
 }

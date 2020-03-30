@@ -29,7 +29,7 @@ public class Pivit {
 					generateBoard_8_Players_4();
 					break;
 				default:
-				break;
+					break;
 			}
 		}
 	}
@@ -226,7 +226,6 @@ public class Pivit {
 		return;
 	}
 
-
 	public Piece getPiece(int x, int y) {
 		for (Piece piece : this.board) {
 			if (piece.getX() == x && piece.getY() == y)
@@ -243,11 +242,11 @@ public class Pivit {
 	public boolean isInCorner(Piece piece) {
 		if (piece.getX() == 0 && piece.getY() == 0)
 			return true;
-		if (piece.getX() == (size - 1) && piece.getY() == 0)
+		else if (piece.getX() == (this.size - 1) && piece.getY() == 0)
 			return true;
-		if (piece.getX() == 0 && piece.getY() == (size - 1))
+		else if (piece.getX() == 0 && piece.getY() == (this.size - 1))
 			return true;
-		if (piece.getX() == (size - 1) && piece.getY() == (size - 1))
+		else if (piece.getX() == (this.size - 1) && piece.getY() == (this.size - 1))
 			return true;
 		return false;
 	}
@@ -256,10 +255,17 @@ public class Pivit {
 		for (Piece piece : board) {
 			if (piece.getType().equals(Constants.MINION))
 				return false;
+			else {
+				System.out.println(piece.getPlayer() + " Player " + " wins!");
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
+	// A 'Minion' can only move in odd number of cells, the same is not true for a
+	// 'Master'
+	// Nor 'Minion' nor 'Master' can jump over other pieces
 	public boolean isPossibleMove(Piece piece, int distance) {
 		if (piece.getDirection().equals(Constants.HORIZONTAL)) {
 			if (piece.getX() + distance < 0 || (piece.getX() + distance) > size) {
@@ -274,6 +280,7 @@ public class Pivit {
 					}
 				}
 			}
+			// ? wut
 			Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
 			if (destPiece != null)
 				if (destPiece.getPlayer() == piece.getPlayer())
