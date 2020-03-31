@@ -48,8 +48,8 @@ public class Input {
         int distance;
 
         System.out.println("Distance");
-        System.out.println("Positive numbers for right and up.");
-        System.out.println("Negative numbers for left and down.");
+        System.out.println("Positive numbers for right and down.");
+        System.out.println("Negative numbers for left and up.");
 
         while (true) {
             try {

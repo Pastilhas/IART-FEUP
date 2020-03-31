@@ -312,7 +312,7 @@ public class Pivit {
 			System.out.println(this.player_turn + " Player's turn");
 			coordinates = Input.getCoordinates();
 			playPiece = this.getPiece(coordinates[0], coordinates[1]);
-			while (playPiece == null) {
+			while (playPiece == null || playPiece.getPlayer() != this.player_turn) {
 				System.out.println("There isn't a " + this.player_turn + " piece there.");
 				coordinates = Input.getCoordinates();
 				playPiece = this.getPiece(coordinates[0], coordinates[1]);
