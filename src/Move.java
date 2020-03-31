@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
 public class Move {
+	public int id;
 	private int reward;
 	private Pivit game;
 	private Piece piece;
 	private int distance;
 	private ArrayList<Move> children = new ArrayList<>();
 
-	public Move(int rwd, Pivit game, Piece p, int d) {
+	public Move(int id, int rwd, Pivit game, Piece p, int d) {
+		this.id = id;
 		this.reward = rwd;
 		this.game = game;
 		this.piece = p;
@@ -32,6 +34,6 @@ public class Move {
 
 	@Override
 	public String toString() {
-		return "Move("+reward+","+piece+","+distance+")";
+		return "Move("+id+","+reward+","+piece+","+distance+")";
 	}
 }

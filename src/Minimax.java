@@ -4,8 +4,10 @@ public class Minimax {
 	int maxDepth;
 	Pivit currentGameState;
 	Pivit currentGameState_;
+	static int move_id = 0;
 
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
+		System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + node);
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
 		}
@@ -19,7 +21,6 @@ public class Minimax {
 				if (beta <= alpha)
 					break;
 			}
-			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + alpha_);
 			return alpha_;
 		} else {
 			int beta_ = Integer.MAX_VALUE;
@@ -30,32 +31,46 @@ public class Minimax {
 				if (beta <= alpha)
 					break;
 			}
-			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + beta_);
 			return beta_;
 		}
 	}
 
 	public Minimax(String pl, Pivit game) {
 		player = pl;
-		startMove = new Move(0, game, null, 0);
+		startMove = new Move(-1, 0, game, null, 0);
 		maxDepth = 4;
 		currentGameState = game;
 	}
 
-	public void generateChildMoves(Move move, int depth) {
-		if (depth == 0)
-			return;
+	public Move getBestMove() {
+		Move bestMove = null;
+		int max_x = Integer.MIN_VALUE;
+		for (Move m : startMove.getChildren()) {
+			int x = minimax(maxDepth - 1, m, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+			if(x > max_x){
+				bestMove = m;
+				max_x=x;
+			}
+		}
+		return bestMove;
+	}
 
-		for(int i = 0; i < move.getGame().getBoard().size(); i++) {
-			for(int d = -move.getGame().getSize()+1; d < move.getGame().getSize(); d++) {
+	public void generateChildMoves(Move move, int depth) {
+		if (depth == 0) {
+			return;
+		}
+
+		for (int i = 0; i < move.getGame().getBoard().size(); i++) {
+			for (int d = -move.getGame().getSize() + 1; d < move.getGame().getSize(); d++) {
 				Pivit newG = new Pivit(move.getGame());
 				Piece p = newG.getBoard().get(i);
-				if(newG.isPossibleMove(p,d)) {
-					newG.movePiece(p,d);
+				if (newG.isPossibleMove(p, d)) {
+					newG.movePiece(p, d);
 					int reward = getValue(newG);
-					Move newM = new Move(reward,newG,p,d);
+					Move newM = new Move(Minimax.move_id, reward, newG, p, d);
+					Minimax.move_id = Minimax.move_id + 1;
 					move.addChild(newM);
-					generateChildMoves(newM, depth-1);
+					generateChildMoves(newM, depth - 1);
 				}
 			}
 		}
