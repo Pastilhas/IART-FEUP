@@ -273,7 +273,7 @@ public class Pivit {
 	}
 
 	// prints board
-	public void printBoard() {		
+	public void printBoard() {
 		String upperLine = "   | 0 | 1 | 2 | 3 | 4 | 5 |";
 		String separatorLine = "   +---+---+---+---+---+---+";
 		String separatorLeft = "| ";
@@ -354,7 +354,7 @@ public class Pivit {
 	// loop where player vs bot runs
 	// first player is human
 	// second player is bot
-	private Constants.GameState PlayBot() {
+	private Constants.GameState PlayBot() throws InterruptedException {
 		int[] coordinates = new int[2];
 		Piece playPiece;
 		int distance;
@@ -383,6 +383,7 @@ public class Pivit {
 			this.switchTurn();
 			this.printBoard();
 
+			Thread.sleep(1250);
 			Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
 			B.generateChildMoves(B.startMove, B.maxDepth);
 			bestMove = B.getBestMove();
@@ -399,9 +400,11 @@ public class Pivit {
 	}
 
 	// loop where bot vs bot runs
-	private Constants.GameState PlayBotBot() {
+	private Constants.GameState PlayBotBot() throws InterruptedException {
 		do {
 			this.printBoard();
+
+			Thread.sleep(1250);
 			Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
 			A.generateChildMoves(A.startMove, A.maxDepth);
 			Move bestMove = A.getBestMove();
@@ -414,7 +417,7 @@ public class Pivit {
 				break;
 			this.switchTurn();
 
-
+			Thread.sleep(1250);
 			Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
 			B.generateChildMoves(B.startMove, B.maxDepth);
 			bestMove = B.getBestMove();
@@ -422,7 +425,6 @@ public class Pivit {
 			movePiece(pp, bestMove.getDistance());
 
 			this.switchTurn();
-			this.printBoard();
 
 		} while (!this.isGameOver());
 
@@ -433,7 +435,7 @@ public class Pivit {
 	}
 
 	// 'main' function of Pivit.java
-	public Constants.GameState run() {
+	public Constants.GameState run() throws InterruptedException {
 		if (this.gameMode == Constants.GameMode.PVB) {
 			System.out.println("Player VS Bot Mode");
 			this.PlayBot();
