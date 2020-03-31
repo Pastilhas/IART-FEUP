@@ -52,10 +52,10 @@ public class Game {
 					}
 					break;
 				case MAINGAME_STATE:
-				if (size == 0) {
-					System.out.println("Something went wrong, exiting...");
-					System.exit(1);
-				}
+					if (size == 0) {
+						System.out.println("Something went wrong, exiting...");
+						System.exit(1);
+					}
 
 					Pivit game = new Pivit(size, gameMode);
 
