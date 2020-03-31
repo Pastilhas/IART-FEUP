@@ -309,7 +309,6 @@ public class Pivit {
 	}
 
 	public Constants.GameState run() {
-<<<<<<< HEAD
 
 		while(!isEnd()) {
 			this.printBoard();
@@ -348,7 +347,6 @@ public class Pivit {
 		A.generateChildMoves(A.startMove, A.maxDepth);
     //A.printMoves(A.startMove, A.maxDepth);
     System.out.println(A.getBestMove()); */
-=======
 		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
 
 		if (this.gameMode == Constants.GameMode.PVB) {
@@ -370,7 +368,6 @@ public class Pivit {
 			this.printBoard();
 			System.out.println(Constants.PLAYER_1 + " Player's turn");
 		}
->>>>>>> 6111896f037d61456ec07516d581b1831bb7a330
 
 		return gameState;
 	}
