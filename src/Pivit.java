@@ -430,9 +430,9 @@ public class Pivit {
   	  System.out.println(bestMove);
 
 			winner = this.player_turn;
+      this.printBoard();
 			if(isGameOver()) break;
 			this.switchTurn();
-      this.printBoard();
 
       Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
       B.generateChildMoves(B.startMove, B.maxDepth);
