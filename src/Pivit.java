@@ -309,9 +309,9 @@ public class Pivit {
 	}
 
 	public Constants.GameState run() {
-<<<<<<< HEAD
+		// Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
 
-		while(!isEnd()) {
+    while(!isEnd()) {
 			this.printBoard();
 			if(gameMode == Constants.GameMode.BVB) {
 				Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
@@ -320,58 +320,45 @@ public class Pivit {
 				Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
 				movePiece(pp, bestMove.getDistance());
 				System.out.println(bestMove);
-
 			} else if(gameMode == Constants.GameMode.PVB || gameMode == Constants.GameMode.PVP) {
 				// player faz move
 			}
 
 			this.printBoard();
 			if(gameMode == Constants.GameMode.BVB || gameMode == Constants.GameMode.PVB) {
-				Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
+        Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
 				B.generateChildMoves(B.startMove, B.maxDepth);
-				Move bestMove = B.getBestMove();
+        Move bestMove = B.getBestMove();
 				Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
 				movePiece(pp, bestMove.getDistance());
-				System.out.println(bestMove);
+        System.out.println(bestMove);
+        
 			} else if(gameMode == Constants.GameMode.PVP) {
 				// player faz move
 			}
-
-
+      
 		}
 
+		// if (this.gameMode == Constants.GameMode.PVB) {
+		// 	System.out.println("Player VS Bot Mode");
+		// 	// this.printBoard();
+		// 	// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+		// 	// A.generateChildMoves(A.startMove, A.maxDepth);
+		// 	// // A.printMoves(A.startMove, A.maxDepth);
+		// 	// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+		// } else if (this.gameMode == Constants.GameMode.BVB) {
+		// 	System.out.println("Bot VS Bot Mode");
+		// 	// this.printBoard();
+		// 	// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+		// 	// A.generateChildMoves(A.startMove, A.maxDepth);
+		// 	// // A.printMoves(A.startMove, A.maxDepth);
+		// 	// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+		// } else if (this.gameMode == Constants.GameMode.PVP) {
+		// 	System.out.println("Player VS Player Mode");
+		// 	this.printBoard();
+		// 	System.out.println(Constants.PLAYER_1 + " Player's turn");
+		// }
 
-
-
-
-		/* Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-		A.generateChildMoves(A.startMove, A.maxDepth);
-    //A.printMoves(A.startMove, A.maxDepth);
-    System.out.println(A.getBestMove()); */
-=======
-		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
-
-		if (this.gameMode == Constants.GameMode.PVB) {
-			System.out.println("Player VS Bot Mode");
-			// this.printBoard();
-			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-			// A.generateChildMoves(A.startMove, A.maxDepth);
-			// // A.printMoves(A.startMove, A.maxDepth);
-			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
-		} else if (this.gameMode == Constants.GameMode.BVB) {
-			System.out.println("Bot VS Bot Mode");
-			// this.printBoard();
-			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-			// A.generateChildMoves(A.startMove, A.maxDepth);
-			// // A.printMoves(A.startMove, A.maxDepth);
-			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
-		} else if (this.gameMode == Constants.GameMode.PVP) {
-			System.out.println("Player VS Player Mode");
-			this.printBoard();
-			System.out.println(Constants.PLAYER_1 + " Player's turn");
-		}
->>>>>>> 6111896f037d61456ec07516d581b1831bb7a330
-
-		return gameState;
+		return Constants.GameState.MENU_STATE;
 	}
 }
