@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import jdk.dynalink.linker.ConversionComparator.Comparison;
-
 public class Pivit {
 	private int size;
 	private Constants.GameMode gameMode;
@@ -157,16 +155,17 @@ public class Pivit {
 		return false;
 	}
 
+	// // checks if any player still has any pieces
+	// public boolean hasPiecesLeft(String player){
+	// 	return false;
+	// }
+
+	// checks if the end conditions are met
 	public boolean isEnd() {
-		// String player = "NOBODY";
 		for (Piece piece : board) {
 			if (piece.getType().equals(Constants.MINION))
 				return false;
-			// else {
-			// player = piece.getPlayer();
-			// }
 		}
-		// System.out.println(player + " Player " + " wins!");
 		return true;
 	}
 
@@ -228,7 +227,7 @@ public class Pivit {
 	}
 
 	public void movePiece(Piece piece, int distance) {
-		if (isPossibleMove(piece, distance)) {
+		if (this.isPossibleMove(piece, distance)) {
 			Piece destPiece;
 			if (piece.getDirection().equals(Constants.HORIZONTAL))
 				destPiece = getPiece(piece.getX() + distance, piece.getY());
@@ -236,9 +235,7 @@ public class Pivit {
 				destPiece = getPiece(piece.getX(), piece.getY() + distance);
 
 			if (destPiece != null) {
-				removePiece(destPiece);
-				if (isEnd())
-					System.exit(1);
+				this.removePiece(destPiece);
 			}
 
 			if (piece.getDirection() == Constants.HORIZONTAL)
@@ -248,18 +245,17 @@ public class Pivit {
 
 			piece.rotate();
 
-			if (isInCorner(piece)) {
+			if (this.isInCorner(piece)) {
 				piece.promote();
 				if (this.firstPromotePlayer == null)
 					this.firstPromotePlayer = piece.getPlayer();
-				if (isEnd())
-					System.exit(1);
 			}
 
-			switchTurn();
+			this.switchTurn();
 		}
 	}
 
+	// prints board
 	public void printBoard() {
 		String separatorLine = "+---+---+---+---+---+---+";
 		String separatorLeft = "| ";
@@ -303,13 +299,38 @@ public class Pivit {
 	}
 
 	private Constants.GameState Play_Player() {
-		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
+		Constants.GameState gameState = Constants.GameState.MENU_STATE;
+		int[] coordinates = new int[2];
+		Piece playPiece;
+		int distance;
+
+		coordinates = Input.getCoordinates();
+		playPiece = this.getPiece(coordinates[0], coordinates[1]);
+
+		do {
+			while (playPiece == null) {
+				System.out.println("There isn't a " + this.player_turn + " piece there.");
+				coordinates = Input.getCoordinates();
+			}
+			distance = Input.getDistance();
+			while(this.isPossibleMove(playPiece, distance) == false){
+				System.out.println("That piece can't move there.");
+				distance = Input.getDistance();
+			}
+			this.movePiece(playPiece, distance);
+
+		} while (!isEnd());
+
+		// to know the player who won
+		this.switchTurn();
+		System.out.println(this.player_turn + " PLAYER WINS!");
+		gameState = Constants.GameState.MAINGAME_STATE;
 
 		return gameState;
 	}
 
 	public Constants.GameState run() {
-		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
+		Constants.GameState gameState = Constants.GameState.MENU_STATE;
 
 		if (this.gameMode == Constants.GameMode.PVB) {
 			System.out.println("Player VS Bot Mode");
@@ -317,18 +338,21 @@ public class Pivit {
 			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
 			// A.generateChildMoves(A.startMove, A.maxDepth);
 			// // A.printMoves(A.startMove, A.maxDepth);
-			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove,
+			// Integer.MIN_VALUE, Integer.MAX_VALUE, true));
 		} else if (this.gameMode == Constants.GameMode.BVB) {
 			System.out.println("Bot VS Bot Mode");
 			// this.printBoard();
 			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
 			// A.generateChildMoves(A.startMove, A.maxDepth);
 			// // A.printMoves(A.startMove, A.maxDepth);
-			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove,
+			// Integer.MIN_VALUE, Integer.MAX_VALUE, true));
 		} else if (this.gameMode == Constants.GameMode.PVP) {
 			System.out.println("Player VS Player Mode");
 			this.printBoard();
 			System.out.println(Constants.PLAYER_1 + " Player's turn");
+			this.Play_Player();
 		}
 
 		return gameState;
