@@ -60,8 +60,8 @@ public class Menu {
 
         selection = input.next().charAt(0);
 
-        if (input != null)
-            input.close();
+        // if (input != null)
+        //     input.close();
 
         return selection;
     }
