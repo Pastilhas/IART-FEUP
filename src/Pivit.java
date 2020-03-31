@@ -295,8 +295,8 @@ public class Pivit {
 		this.printBoard();
 		Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
 		A.generateChildMoves(A.startMove, A.maxDepth);
-		//A.printMoves(A.startMove, A.maxDepth);
-		System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+    //A.printMoves(A.startMove, A.maxDepth);
+    System.out.println(A.getBestMove());
 
 		return Constants.GameState.MENU_STATE;
 	}
