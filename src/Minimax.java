@@ -4,66 +4,60 @@ public class Minimax {
 	int maxDepth;
 	Pivit currentGameState;
 	Pivit currentGameState_;
+	static int move_id = 0;
 
-	static public Move minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
+	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
+		System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + node);
 		if (depth == 0 || node.getChildren().isEmpty()) {
-			return node;
+			return node.getReward();
 		}
 
 		if (isMax) {
 			int alpha_ = Integer.MIN_VALUE;
-			int prev = alpha_;
-			Move alpha_move = new Move(0,null,null,0);
 			for (Move child : node.getChildren()) {
-				Move e = minimax(depth - 1, child, alpha, beta, !isMax);
-				prev = alpha_;
-				alpha_ = Integer.max(alpha_, e.getReward());
-				if(prev != alpha_) alpha_move = e;
+				int e = minimax(depth - 1, child, alpha, beta, !isMax);
+				alpha_ = Integer.max(alpha_, e);
 				alpha = Integer.max(alpha, alpha_);
 				if (beta <= alpha)
 					break;
 			}
-			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + alpha_);
-			return alpha_move;
+			return alpha_;
 		} else {
 			int beta_ = Integer.MAX_VALUE;
-			int prev = beta_;
-			Move beta_move = new Move(0,null,null,0);
 			for (Move child : node.getChildren()) {
-				Move e = minimax(depth - 1, child, alpha, beta, !isMax);
-				prev = beta_;
-				beta_ = Integer.min(beta_, e.getReward());
-				if(prev != beta_) beta_move = e;
+				int e = minimax(depth - 1, child, alpha, beta, !isMax);
+				beta_ = Integer.min(beta_, e);
 				beta = Integer.min(beta, beta_);
 				if (beta <= alpha)
 					break;
 			}
-			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + beta_);
-			return beta_move;
+			return beta_;
 		}
 	}
 
 	public Minimax(String pl, Pivit game) {
 		player = pl;
-		startMove = new Move(0, game, null, 0);
+		startMove = new Move(-1, 0, game, null, 0);
 		maxDepth = 4;
 		currentGameState = game;
 	}
 
 	public void generateChildMoves(Move move, int depth) {
-		if (depth == 0)
+		if (depth == 0) {
 			return;
+		}
 
-		for(int i = 0; i < move.getGame().getBoard().size(); i++) {
-			for(int d = -move.getGame().getSize()+1; d < move.getGame().getSize(); d++) {
+		for (int i = 0; i < move.getGame().getBoard().size(); i++) {
+			for (int d = -move.getGame().getSize() + 1; d < move.getGame().getSize(); d++) {
 				Pivit newG = new Pivit(move.getGame());
 				Piece p = newG.getBoard().get(i);
-				if(newG.isPossibleMove(p,d)) {
-					newG.movePiece(p,d);
+				if (newG.isPossibleMove(p, d)) {
+					newG.movePiece(p, d);
 					int reward = getValue(newG);
-					Move newM = new Move(reward,newG,p,d);
+					Move newM = new Move(Minimax.move_id, reward, newG, p, d);
+					Minimax.move_id = Minimax.move_id + 1;
 					move.addChild(newM);
-					generateChildMoves(newM, depth-1);
+					generateChildMoves(newM, depth - 1);
 				}
 			}
 		}
