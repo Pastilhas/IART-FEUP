@@ -276,11 +276,15 @@ public class Pivit {
 
 	// prints board
 	public void printBoard() {
-		String separatorLine = "+---+---+---+---+---+---+";
+		System.out.println();
+		System.out.println("   | 0 | 1 | 2 | 3 | 4 | 5 |");
+
+		String separatorLine = "   +---+---+---+---+---+---+";
 		String separatorLeft = "| ";
 		String separatorRight = " ";
 		if (this.size == 8) {
 			separatorLine += "---+---+";
+			System.out.println("| 6 | 7 |");
 		}
 
 		for (int y = 0; y < this.size; y++) {
@@ -306,9 +310,10 @@ public class Pivit {
 				line += separatorRight;
 			}
 			line += separatorLeft;
-			System.out.println(line);
+			System.out.println(y + "  "+ line);
 		}
 		System.out.println(separatorLine);
+		System.out.println();
 	}
 
 	public void debugBoard() {
