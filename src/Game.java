@@ -59,7 +59,7 @@ public class Game {
 
 					Pivit game = new Pivit(size, gameMode);
 
-					current_state = game.run(); 
+					current_state = game.run();
 
 					break;
 				case EXIT:
