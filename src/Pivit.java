@@ -429,8 +429,9 @@ public class Pivit {
   		movePiece(pp, bestMove.getDistance());
   	  System.out.println(bestMove);
 
-      winner = this.player_turn;
-      this.switchTurn();
+			winner = this.player_turn;
+			if(isGameOver()) break;
+			this.switchTurn();
       this.printBoard();
 
       Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
