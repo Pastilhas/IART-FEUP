@@ -160,7 +160,7 @@ public class Pivit {
 
 	// // checks if any player still has any pieces
 	// public boolean hasPiecesLeft(String player){
-	// 	return false;
+	// return false;
 	// }
 
 	// checks if the end conditions are met
@@ -300,10 +300,14 @@ public class Pivit {
 		}
 	}
 
-	private Constants.GameState Play_Player() {
+	private Constants.GameState PlayPlayer() {
 		int[] coordinates = new int[2];
 		Piece playPiece;
 		int distance;
+		String winner;
+
+		this.printBoard();
+		System.out.println(Constants.PLAYER_1 + " Player's turn");
 
 		coordinates = Input.getCoordinates();
 		playPiece = this.getPiece(coordinates[0], coordinates[1]);
@@ -314,17 +318,19 @@ public class Pivit {
 				coordinates = Input.getCoordinates();
 			}
 			distance = Input.getDistance();
-			while(this.isPossibleMove(playPiece, distance) == false){
+			while (this.isPossibleMove(playPiece, distance) == false) {
 				System.out.println("That piece can't move there.");
 				distance = Input.getDistance();
 			}
 			this.movePiece(playPiece, distance);
-			this.isGameOver();
+			winner = this.player_turn;
 			this.switchTurn();
+			this.printBoard();
+			System.out.println(this.player_turn + " Player's turn");
 
 		} while (!this.isGameOver());
 
-		System.out.println(this.player_turn + " PLAYER WINS!");
+		System.out.println(winner + " PLAYER WINS!");
 		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
@@ -349,9 +355,7 @@ public class Pivit {
 			// Integer.MIN_VALUE, Integer.MAX_VALUE, true));
 		} else if (this.gameMode == Constants.GameMode.PVP) {
 			System.out.println("Player VS Player Mode");
-			this.printBoard();
-			System.out.println(Constants.PLAYER_1 + " Player's turn");
-			this.Play_Player();
+			this.PlayPlayer();
 		}
 
 		return this.gameState;
