@@ -5,33 +5,41 @@ public class Minimax {
 	Pivit currentGameState;
 	Pivit currentGameState_;
 
-	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
+	static public Move minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
 		if (depth == 0 || node.getChildren().isEmpty()) {
-			return node.getReward();
+			return node;
 		}
 
 		if (isMax) {
 			int alpha_ = Integer.MIN_VALUE;
+			int prev = alpha_;
+			Move alpha_move = new Move(0,null,null,0);
 			for (Move child : node.getChildren()) {
-				int e = minimax(depth - 1, child, alpha, beta, !isMax);
-				alpha_ = Integer.max(alpha_, e);
+				Move e = minimax(depth - 1, child, alpha, beta, !isMax);
+				prev = alpha_;
+				alpha_ = Integer.max(alpha_, e.getReward());
+				if(prev != alpha_) alpha_move = e;
 				alpha = Integer.max(alpha, alpha_);
 				if (beta <= alpha)
 					break;
 			}
 			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + alpha_);
-			return alpha_;
+			return alpha_move;
 		} else {
 			int beta_ = Integer.MAX_VALUE;
+			int prev = beta_;
+			Move beta_move = new Move(0,null,null,0);
 			for (Move child : node.getChildren()) {
-				int e = minimax(depth - 1, child, alpha, beta, !isMax);
-				beta_ = Integer.min(beta_, e);
+				Move e = minimax(depth - 1, child, alpha, beta, !isMax);
+				prev = beta_;
+				beta_ = Integer.min(beta_, e.getReward());
+				if(prev != beta_) beta_move = e;
 				beta = Integer.min(beta, beta_);
 				if (beta <= alpha)
 					break;
 			}
 			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + beta_);
-			return beta_;
+			return beta_move;
 		}
 	}
 
