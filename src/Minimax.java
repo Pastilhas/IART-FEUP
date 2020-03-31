@@ -46,9 +46,9 @@ public class Minimax {
 		int max_x = Integer.MIN_VALUE;
 		for (Move m : startMove.getChildren()) {
 			int x = minimax(maxDepth - 1, m, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-			if(x > max_x){
+			if (x > max_x) {
 				bestMove = m;
-				max_x=x;
+				max_x = x;
 			}
 		}
 		return bestMove;
@@ -60,17 +60,22 @@ public class Minimax {
 		}
 
 		for (int i = 0; i < move.getGame().getBoard().size(); i++) {
+
 			for (int d = -move.getGame().getSize() + 1; d < move.getGame().getSize(); d++) {
 				Pivit newG = new Pivit(move.getGame());
 				Piece p = newG.getBoard().get(i);
 				if (newG.isPossibleMove(p, d)) {
+
 					Piece before = new Piece(p);
 					newG.movePiece(p, d);
 					int reward = getValue(newG);
 					Move newM = new Move(Minimax.move_id, reward, newG, before, d);
 					Minimax.move_id = Minimax.move_id + 1;
+
 					move.addChild(newM);
+
 					generateChildMoves(newM, depth - 1);
+
 				}
 			}
 		}
@@ -92,10 +97,11 @@ public class Minimax {
 			}
 		}
 
-		if(game.firstPromotePlayer != null)
-			if(game.firstPromotePlayer.equals(player)) value += 4;
-		for(Piece p : game.getBoard()) {
-			if(p.getPlayer().equals(player) && p.getType().equals(Constants.MASTER))
+		if (game.firstPromotePlayer != null)
+			if (game.firstPromotePlayer.equals(player))
+				value += 4;
+		for (Piece p : game.getBoard()) {
+			if (p.getPlayer().equals(player) && p.getType().equals(Constants.MASTER))
 				value += 2;
 		}
 

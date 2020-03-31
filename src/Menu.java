@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Menu {
 
@@ -55,15 +54,7 @@ public class Menu {
     }
 
     public char getOption() {
-        char selection;
-        Scanner input = new Scanner(System.in);
-
-        selection = input.next().charAt(0);
-
-        // if (input != null)
-        //     input.close();
-
-        return selection;
+        return Input.getMenuOption();
     }
 
     void setState(Constants.GameState state) {
