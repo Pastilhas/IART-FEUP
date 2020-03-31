@@ -28,6 +28,14 @@ public class Move {
 		return this.children;
 	}
 
+	public int getDistance() {
+		return distance;
+	}
+
+	public Piece getPiece() {
+		return piece;
+	}
+
 	public void addChild(Move m) {
 		children.add(m);
 	}

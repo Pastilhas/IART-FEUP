@@ -7,7 +7,6 @@ public class Minimax {
 	static int move_id = 0;
 
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
-		System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + node);
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
 		}
@@ -65,9 +64,10 @@ public class Minimax {
 				Pivit newG = new Pivit(move.getGame());
 				Piece p = newG.getBoard().get(i);
 				if (newG.isPossibleMove(p, d)) {
+					Piece before = new Piece(p);
 					newG.movePiece(p, d);
 					int reward = getValue(newG);
-					Move newM = new Move(Minimax.move_id, reward, newG, p, d);
+					Move newM = new Move(Minimax.move_id, reward, newG, before, d);
 					Minimax.move_id = Minimax.move_id + 1;
 					move.addChild(newM);
 					generateChildMoves(newM, depth - 1);
@@ -91,6 +91,14 @@ public class Minimax {
 					value += 2; // gain 2 pt for each rival master captured
 			}
 		}
+
+		if(game.firstPromotePlayer != null)
+			if(game.firstPromotePlayer.equals(player)) value += 4;
+		for(Piece p : game.getBoard()) {
+			if(p.getPlayer().equals(player) && p.getType().equals(Constants.MASTER))
+				value += 2;
+		}
+
 		return value;
 	}
 

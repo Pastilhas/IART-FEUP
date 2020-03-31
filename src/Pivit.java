@@ -4,7 +4,7 @@ public class Pivit {
 	private int size;
 	private Constants.GameMode gameMode;
 	private String player_turn;
-	private String firstPromotePlayer;
+	public String firstPromotePlayer = null;
 	private ArrayList<Piece> board = new ArrayList<>();
 	private ArrayList<Piece> captured = new ArrayList<>();
 
@@ -292,11 +292,44 @@ public class Pivit {
 	}
 
 	public Constants.GameState run() {
-		this.printBoard();
-		Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+
+		while(!isEnd()) {
+			this.printBoard();
+			if(gameMode == Constants.GameMode.BVB) {
+				Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+				A.generateChildMoves(A.startMove, A.maxDepth);
+				Move bestMove = A.getBestMove();
+				Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
+				movePiece(pp, bestMove.getDistance());
+				System.out.println(bestMove);
+
+			} else if(gameMode == Constants.GameMode.PVB || gameMode == Constants.GameMode.PVP) {
+				// player faz move
+			}
+
+			this.printBoard();
+			if(gameMode == Constants.GameMode.BVB || gameMode == Constants.GameMode.PVB) {
+				Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
+				B.generateChildMoves(B.startMove, B.maxDepth);
+				Move bestMove = B.getBestMove();
+				Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
+				movePiece(pp, bestMove.getDistance());
+				System.out.println(bestMove);
+			} else if(gameMode == Constants.GameMode.PVP) {
+				// player faz move
+			}
+
+
+		}
+
+
+
+
+
+		/* Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
 		A.generateChildMoves(A.startMove, A.maxDepth);
     //A.printMoves(A.startMove, A.maxDepth);
-    System.out.println(A.getBestMove());
+    System.out.println(A.getBestMove()); */
 
 		return Constants.GameState.MENU_STATE;
 	}
