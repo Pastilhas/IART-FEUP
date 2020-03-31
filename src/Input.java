@@ -2,7 +2,22 @@ import java.io.Console;
 
 public class Input {
 
-    public int[] getCoordinates() {
+    // public static void main(String[] args) {
+    // getMenuOption();
+    // }
+
+    public static char getMenuOption() {
+        char selection;
+        Console console = System.console();
+
+        String input = console.readLine("Option: ");
+
+        selection = input.charAt(0);
+        return selection;
+
+    }
+
+    public static int[] getCoordinates() {
         Console console = System.console();
         int[] coordinates = new int[2];
 
@@ -16,7 +31,7 @@ public class Input {
                 if (coordinates[0] < 0 || coordinates[1] > 8)
                     throw new StringIndexOutOfBoundsException();
 
-                System.out.println("numbers entered : " + coordinates[0] + " " + coordinates[1]);
+                System.out.println("Coordinates entered: " + coordinates[0] + " " + coordinates[1] + "\n");
 
                 return coordinates;
 
@@ -27,4 +42,28 @@ public class Input {
             }
         }
     }
+
+    public static int getDistance() {
+        Console console = System.console();
+        int distance;
+
+        System.out.println("Distance");
+        System.out.println("Positive numbers for right and down.");
+        System.out.println("Negative numbers for left and up.");
+
+        while (true) {
+            try {
+                String input = console.readLine("Number of cells to move: ");
+
+                distance = Integer.parseInt(input);
+                System.out.println("Distance entered: " + distance + "\n");
+
+                return distance;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Input must be a number.");
+            }
+        }
+    }
+
 }
