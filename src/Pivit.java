@@ -158,10 +158,25 @@ public class Pivit {
 		return false;
 	}
 
-	// // checks if any player still has any pieces
-	// public boolean hasPiecesLeft(String player){
-	// return false;
-	// }
+	// checks the winner by most 'Masters' count
+	public String checkWinner() {
+		int player_1_Masters = 0;
+		int player_2_Masters = 0;
+
+		for (Piece piece : board) {
+			if (piece.getType().equals(Constants.MASTER) && piece.getPlayer() == Constants.PLAYER_1)
+				player_1_Masters++;
+			if (piece.getType().equals(Constants.MASTER) && piece.getPlayer() == Constants.PLAYER_2)
+				player_2_Masters++;
+		}
+
+		if (player_1_Masters > player_2_Masters)
+			return Constants.PLAYER_1;
+		else if (player_2_Masters > player_1_Masters)
+			return Constants.PLAYER_2;
+		else
+			return this.firstPromotePlayer;
+	}
 
 	// checks if the end conditions are met
 	public boolean isGameOver() {
@@ -310,7 +325,6 @@ public class Pivit {
 		int[] coordinates = new int[2];
 		Piece playPiece;
 		int distance;
-		String winner;
 
 		this.printBoard();
 
@@ -329,13 +343,12 @@ public class Pivit {
 				distance = Input.getDistance();
 			}
 			this.movePiece(playPiece, distance);
-			winner = this.player_turn;
 			this.switchTurn();
 			this.printBoard();
 
 		} while (!this.isGameOver());
 
-		System.out.println(winner + " PLAYER WINS!");
+		System.out.println(this.checkWinner() + " PLAYER WINS!");
 		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
@@ -348,7 +361,6 @@ public class Pivit {
 		int[] coordinates = new int[2];
 		Piece playPiece;
 		int distance;
-		String winner;
 
 		Move bestMove;
 
@@ -371,7 +383,6 @@ public class Pivit {
 				}
 				this.movePiece(playPiece, distance);
 			}
-			winner = this.player_turn;
 			this.switchTurn();
 			this.printBoard();
 
@@ -384,7 +395,7 @@ public class Pivit {
 
 		} while (!this.isGameOver());
 
-		System.out.println(winner + " PLAYER WINS!");
+		System.out.println(this.checkWinner() + " PLAYER WINS!");
 		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
@@ -393,8 +404,6 @@ public class Pivit {
 
 	// loop where bot vs bot runs
 	private Constants.GameState PlayBotBot() {
-		String winner;
-
 		do {
 			this.printBoard();
 			Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
@@ -404,11 +413,12 @@ public class Pivit {
 			movePiece(pp, bestMove.getDistance());
 			System.out.println(bestMove);
 
-			winner = this.player_turn;
 			this.printBoard();
-			if (isGameOver())
+
+			if (this.isGameOver())
 				break;
 			this.switchTurn();
+
 
 			Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
 			B.generateChildMoves(B.startMove, B.maxDepth);
@@ -417,13 +427,12 @@ public class Pivit {
 			movePiece(pp, bestMove.getDistance());
 			System.out.println(bestMove);
 
-			winner = this.player_turn;
 			this.switchTurn();
 			this.printBoard();
 
 		} while (!this.isGameOver());
 
-		System.out.println(winner + " PLAYER WINS!");
+		System.out.println(this.checkWinner() + " PLAYER WINS!");
 		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
