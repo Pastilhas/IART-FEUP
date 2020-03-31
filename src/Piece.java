@@ -15,6 +15,14 @@ public class Piece {
         this.type = type;
     }
 
+    public Piece(Piece p){
+        this.x = p.x;
+        this.y = p.y;
+        this.player = p.player;
+        this.direction = p.direction;
+        this.type = p.type;
+    }
+
     public int getX() {
         return this.x;
     }
@@ -105,5 +113,10 @@ public class Piece {
     // when a "Minion" piece reaches a corner, it becomes a "Master"
     public void promote() {
         this.type = Constants.MASTER;
+    }
+
+    @Override
+    public String toString() {
+        return "Piece("+x+","+y+","+direction+","+player+","+type+")";
     }
 }

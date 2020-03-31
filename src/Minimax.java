@@ -1,7 +1,10 @@
 public class Minimax {
 	Move startMove;
 	String player;
-	
+	int maxDepth;
+	Pivit currentGameState;
+	Pivit currentGameState_;
+
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
@@ -16,7 +19,7 @@ public class Minimax {
 				if (beta <= alpha)
 					break;
 			}
-
+			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + alpha_);
 			return alpha_;
 		} else {
 			int beta_ = Integer.MAX_VALUE;
@@ -27,37 +30,35 @@ public class Minimax {
 				if (beta <= alpha)
 					break;
 			}
-
+			System.out.println(new String(new char[4 - depth]).replace("\0", "  ") + beta_);
 			return beta_;
 		}
 	}
 
 	public Minimax(String pl, Pivit game) {
 		player = pl;
-		startMove = new Move(0, 0, new Pivit(game), null, 0);
+		startMove = new Move(0, game, null, 0);
+		maxDepth = 4;
+		currentGameState = game;
 	}
 
 	public void generateChildMoves(Move move, int depth) {
 		if (depth == 0)
 			return;
 
-		Pivit g = move.getGame();
-		int est_reward = 0;
-
-		for (Piece p : g.getBoard()) {
-			for (int d = -g.getSize() + 1; d < g.getSize(); d++) {
-				if (g.isPossibleMove(p, d)) {
-					Pivit newG = new Pivit(g);
-					newG.movePiece(p, d);
+		for(int i = 0; i < move.getGame().getBoard().size(); i++) {
+			for(int d = -move.getGame().getSize()+1; d < move.getGame().getSize(); d++) {
+				Pivit newG = new Pivit(move.getGame());
+				Piece p = newG.getBoard().get(i);
+				if(newG.isPossibleMove(p,d)) {
+					newG.movePiece(p,d);
 					int reward = getValue(newG);
-					est_reward += reward;
-					Move newM = new Move(reward, 0, newG, p, d);
+					Move newM = new Move(reward,newG,p,d);
 					move.addChild(newM);
-					generateChildMoves(newM, depth - 1);
+					generateChildMoves(newM, depth-1);
 				}
 			}
 		}
-		move.setEstimated(est_reward);
 	}
 
 	public int getValue(Pivit game) {
@@ -79,9 +80,9 @@ public class Minimax {
 	}
 
 	public void printMoves(Move move, int depth) {
-		System.out.println("yes");
-		for (Move m : startMove.getChildren()) {
-			printMoves(m, depth + 1);
+		System.out.println(new String(new char[maxDepth - depth]).replace("\0", "--") + move);
+		for (Move m : move.getChildren()) {
+			printMoves(m, depth - 1);
 		}
 	}
 }

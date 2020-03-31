@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Pivit {
 	private int size;
 	private Constants.GameMode gameMode;
+	private String player_turn;
 	private String firstPromotePlayer;
 	private ArrayList<Piece> board = new ArrayList<>();
 	private ArrayList<Piece> captured = new ArrayList<>();
@@ -10,6 +11,7 @@ public class Pivit {
 	public Pivit(int size, Constants.GameMode gameMode) {
 		this.size = size;
 		this.gameMode = gameMode;
+		player_turn = "GREEN";
 
 		if (size == 6)
 			generateBoard_6();
@@ -19,10 +21,17 @@ public class Pivit {
 	}
 
 	public Pivit(Pivit game) {
-		this.board = new ArrayList<>(game.board);
-		this.captured = new ArrayList<>(game.captured);
+		this.board = new ArrayList<>();
+		for (Piece p : game.board) {
+			this.board.add(new Piece(p));
+		}
+		this.captured = new ArrayList<>();
+		for (Piece p : game.captured) {
+			this.captured.add(new Piece(p));
+		}
 		this.size = game.size;
 		this.firstPromotePlayer = game.firstPromotePlayer;
+		this.player_turn = game.player_turn;
 	}
 
 	public int getSize() {
@@ -158,49 +167,56 @@ public class Pivit {
 		return true;
 	}
 
+	public void switchTurn() {
+		if(player_turn.equals("GREEN")) player_turn = "YELLOW";
+		else player_turn = "GREEN";
+	}
+
 	// A 'Minion' can only move in odd number of cells,
 	// the same is not true for a 'Master'.
 	// Nor 'Minion' nor 'Master' can jump over other pieces
 	public boolean isPossibleMove(Piece piece, int distance) {
-		if (piece.getDirection().equals(Constants.HORIZONTAL)) {
-			if (piece.getX() + distance < 0 || (piece.getX() + distance) > size) {
-				return false;
-			} else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
-				return false;
-			} else {
-				int inc = (int) Math.signum(distance);
-				for (int i = inc; Math.abs(i - distance) > 1; i += inc) {
-					if (getPiece(piece.getX() + i, piece.getY()) != null) {
-						return false;
+		if (piece.getPlayer().equals(this.player_turn)) {
+			if (piece.getDirection().equals(Constants.HORIZONTAL)) {
+				if ((piece.getX() + distance) < 0 || (piece.getX() + distance) >= size) {
+					return false;
+				} else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
+					return false;
+				} else {
+					int inc = (int) Math.signum(distance);
+					for (int i = inc; Math.abs(i - distance) > 0; i += inc) {
+						if (getPiece(piece.getX() + i, piece.getY()) != null) {
+							return false;
+						}
 					}
 				}
-			}
-			// ? wut
-			Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
-			if (destPiece != null)
-				if (destPiece.getPlayer() == piece.getPlayer())
-					return false;
-
-			return true;
-		} else if (piece.getDirection() == Constants.VERTICAL) {
-			if (piece.getY() + distance < 0 || (piece.getY() + distance) > size) {
-				return false;
-			} else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
-				return false;
-			} else {
-				int inc = (int) Math.signum(distance);
-				for (int i = inc; Math.abs(i - distance) > 1; i += inc) {
-					if (getPiece(piece.getX(), piece.getY() + i) != null) {
+				Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
+				if (destPiece != null)
+					if (destPiece.getPlayer().equals(piece.getPlayer())) {
 						return false;
 					}
-				}
-			}
-			Piece destPiece = getPiece(piece.getX() + distance, piece.getY());
-			if (destPiece != null)
-				if (destPiece.getPlayer() == piece.getPlayer())
+				return true;
+			} else if (piece.getDirection().equals(Constants.VERTICAL)) {
+				if ((piece.getY() + distance) < 0 || (piece.getY() + distance) >= size) {
 					return false;
+				} else if (piece.getType().equals(Constants.MINION) && Math.abs(distance) % 2 == 0) {
+					return false;
+				} else {
+					int inc = (int) Math.signum(distance);
+					for (int i = inc; Math.abs(i - distance) > 0; i += inc) {
+						if (getPiece(piece.getX(), piece.getY() + i) != null) {
+							return false;
+						}
+					}
+				}
+				Piece destPiece = getPiece(piece.getX(), piece.getY() + distance);
+				if (destPiece != null)
+					if (destPiece.getPlayer().equals(piece.getPlayer())) {
+						return false;
+					}
 
-			return true;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -208,31 +224,28 @@ public class Pivit {
 	public void movePiece(Piece piece, int distance) {
 		if (isPossibleMove(piece, distance)) {
 			Piece destPiece;
-			if (piece.getDirection().equals(Constants.HORIZONTAL))
-				destPiece = getPiece(piece.getX() + distance, piece.getY());
-			else
-				destPiece = getPiece(piece.getX(), piece.getY() + distance);
+			if (piece.getDirection().equals(Constants.HORIZONTAL)) destPiece = getPiece(piece.getX() + distance, piece.getY());
+			else destPiece = getPiece(piece.getX(), piece.getY() + distance);
 
 			if (destPiece != null) {
 				removePiece(destPiece);
-				if (isEnd())
-					System.exit(1);
+				if (isEnd()) System.exit(1);
 			}
 
-			if (piece.getDirection() == Constants.HORIZONTAL)
-				piece.setX(piece.getX() + distance);
-			else
-				piece.setY(piece.getY() + distance);
+			if (piece.getDirection() == Constants.HORIZONTAL) piece.setX(piece.getX() + distance);
+			else piece.setY(piece.getY() + distance);
 
 			piece.rotate();
 
 			if (isInCorner(piece)) {
 				piece.promote();
-				// To store who got the first 'Master' (not tested)
-				this.firstPromotePlayer = this.firstPromotePlayer == null ? piece.getPlayer() : this.firstPromotePlayer;
+				if (firstPromotePlayer == null)
+					firstPromotePlayer = piece.getPlayer();
 				if (isEnd())
 					System.exit(1);
 			}
+
+			switchTurn();
 		}
 	}
 
@@ -280,11 +293,11 @@ public class Pivit {
 
 	public Constants.GameState run() {
 		this.printBoard();
-		Minimax A = new Minimax(Constants.PLAYER_1, this);
-		A.generateChildMoves(A.startMove, 4);
-		A.printMoves(A.startMove, 0);
+		Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+		A.generateChildMoves(A.startMove, A.maxDepth);
+		//A.printMoves(A.startMove, A.maxDepth);
+		System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
 
 		return Constants.GameState.MENU_STATE;
 	}
-
 }

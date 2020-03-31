@@ -15,8 +15,8 @@ public final class Constants {
 
     // ---- PIECE ----
     // background color
-    public static final String RED_BACKGROUND = "\u001B[41m";
-    public static final String BLACK_BACKGROUND = "\u001B[40m";
+    public static final String RED_BACKGROUND = "";
+    public static final String BLACK_BACKGROUND = "";
 
     // ---- PIECE ----
     // colors
