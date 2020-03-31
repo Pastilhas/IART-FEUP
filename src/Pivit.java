@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Pivit {
 	private int size;
 	private Constants.GameMode gameMode;
+	private Constants.GameState gameState;
 	private String player_turn;
 	private String firstPromotePlayer;
 	private ArrayList<Piece> board = new ArrayList<>();
@@ -11,6 +12,7 @@ public class Pivit {
 	public Pivit(int size, Constants.GameMode gameMode) {
 		this.size = size;
 		this.gameMode = gameMode;
+		this.gameState = Constants.GameState.MAINGAME_STATE;
 		player_turn = "GREEN";
 
 		if (size == 6)
@@ -31,6 +33,7 @@ public class Pivit {
 		}
 		this.size = game.size;
 		this.gameMode = game.gameMode;
+		this.gameState = Constants.GameState.MAINGAME_STATE;
 		this.firstPromotePlayer = game.firstPromotePlayer;
 		this.player_turn = game.player_turn;
 	}
@@ -161,7 +164,7 @@ public class Pivit {
 	// }
 
 	// checks if the end conditions are met
-	public boolean isEnd() {
+	public boolean isGameOver() {
 		for (Piece piece : board) {
 			if (piece.getType().equals(Constants.MINION))
 				return false;
@@ -251,7 +254,6 @@ public class Pivit {
 					this.firstPromotePlayer = piece.getPlayer();
 			}
 
-			this.switchTurn();
 		}
 	}
 
@@ -299,7 +301,6 @@ public class Pivit {
 	}
 
 	private Constants.GameState Play_Player() {
-		Constants.GameState gameState = Constants.GameState.MENU_STATE;
 		int[] coordinates = new int[2];
 		Piece playPiece;
 		int distance;
@@ -318,20 +319,18 @@ public class Pivit {
 				distance = Input.getDistance();
 			}
 			this.movePiece(playPiece, distance);
+			this.isGameOver();
+			this.switchTurn();
 
-		} while (!isEnd());
+		} while (!this.isGameOver());
 
-		// to know the player who won
-		this.switchTurn();
 		System.out.println(this.player_turn + " PLAYER WINS!");
-		gameState = Constants.GameState.MAINGAME_STATE;
+		this.gameState = Constants.GameState.MENU_STATE;
 
-		return gameState;
+		return this.gameState;
 	}
 
 	public Constants.GameState run() {
-		Constants.GameState gameState = Constants.GameState.MENU_STATE;
-
 		if (this.gameMode == Constants.GameMode.PVB) {
 			System.out.println("Player VS Bot Mode");
 			// this.printBoard();
@@ -355,6 +354,6 @@ public class Pivit {
 			this.Play_Player();
 		}
 
-		return gameState;
+		return this.gameState;
 	}
 }
