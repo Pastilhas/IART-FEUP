@@ -106,4 +106,9 @@ public class Piece {
     public void promote() {
         this.type = Constants.MASTER;
     }
+
+    @Override
+    public String toString() {
+        return "Piece("+x+","+y+","+direction+","+player+","+type+")";
+    }
 }

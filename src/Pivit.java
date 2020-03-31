@@ -338,8 +338,7 @@ public class Pivit {
 
 			if (isInCorner(piece)) {
 				piece.promote();
-				// To store who got the first 'Master' (not tested)
-				this.firstPromotePlayer = this.firstPromotePlayer == null ? piece.getPlayer() : this.firstPromotePlayer;
+        if(firstPromotePlayer == null) firstPromotePlayer = piece.getPlayer();
 				if (isEnd())
 					System.exit(1);
 			}
@@ -391,8 +390,8 @@ public class Pivit {
 	public Constants.GameState run() {
 		this.printBoard();
 		Minimax A = new Minimax(Constants.PLAYER_1, this);
-		A.generateChildMoves(A.startMove, 4);
-		A.printMoves(A.startMove, 0);
+		A.generateChildMoves(A.startMove, A.maxDepth);
+		A.printMoves(A.startMove, A.maxDepth);
 
 		return Constants.GameState.MENU_STATE;
 	}

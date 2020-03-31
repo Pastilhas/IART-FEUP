@@ -1,7 +1,9 @@
 public class Minimax {
 	Move startMove;
 	String player;
-	
+	int maxDepth;
+	Pivit currentGameState;
+
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
@@ -34,24 +36,24 @@ public class Minimax {
 
 	public Minimax(String pl, Pivit game) {
 		player = pl;
-		startMove = new Move(0, 0, new Pivit(game), null, 0);
+		startMove = new Move(0, 0, null, 0);
+		maxDepth = 1;
+		currentGameState = game;
 	}
 
 	public void generateChildMoves(Move move, int depth) {
 		if (depth == 0)
 			return;
-
-		Pivit g = move.getGame();
 		int est_reward = 0;
 
-		for (Piece p : g.getBoard()) {
-			for (int d = -g.getSize() + 1; d < g.getSize(); d++) {
-				if (g.isPossibleMove(p, d)) {
-					Pivit newG = new Pivit(g);
+		for (Piece p : currentGameState.getBoard()) {
+			for (int d = -currentGameState.getSize() + 1; d < currentGameState.getSize(); d++) {
+				if (currentGameState.isPossibleMove(p, d)) {
+					Pivit newG = new Pivit(currentGameState);
 					newG.movePiece(p, d);
 					int reward = getValue(newG);
 					est_reward += reward;
-					Move newM = new Move(reward, 0, newG, p, d);
+					Move newM = new Move(reward, 0, p, d);
 					move.addChild(newM);
 					generateChildMoves(newM, depth - 1);
 				}
@@ -79,9 +81,9 @@ public class Minimax {
 	}
 
 	public void printMoves(Move move, int depth) {
-		System.out.println("yes");
-		for (Move m : startMove.getChildren()) {
-			printMoves(m, depth + 1);
+		System.out.println(move);
+		for (Move m : move.getChildren()) {
+			printMoves(m, depth - 1);
 		}
 	}
 }
