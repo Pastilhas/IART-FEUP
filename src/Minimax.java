@@ -70,8 +70,6 @@ public class Minimax {
 					newG.movePiece(p, d);
 					int reward = getValue(newG);
 					Move newM = new Move(Minimax.move_id, reward, newG, before, d);
-					if (Minimax.move_id == 920673)
-						newG.getBoard().print();
 					if (Minimax.move_id > 917596)
 						System.out.println(new String(new char[maxDepth - depth]).replace("\0", "  ") + newM);
 					Minimax.move_id = Minimax.move_id + 1;
