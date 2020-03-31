@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import jdk.dynalink.linker.ConversionComparator.Comparison;
+
 public class Pivit {
 	private int size;
 	private Constants.GameMode gameMode;
@@ -30,6 +32,7 @@ public class Pivit {
 			this.captured.add(new Piece(p));
 		}
 		this.size = game.size;
+		this.gameMode = game.gameMode;
 		this.firstPromotePlayer = game.firstPromotePlayer;
 		this.player_turn = game.player_turn;
 	}
@@ -167,9 +170,12 @@ public class Pivit {
 		return true;
 	}
 
+	// changes player's turn
 	public void switchTurn() {
-		if(player_turn.equals(Constants.PLAYER_1)) player_turn = Constants.PLAYER_2;
-		else player_turn = Constants.PLAYER_1;
+		if (player_turn.equals(Constants.PLAYER_1))
+			this.player_turn = Constants.PLAYER_2;
+		else
+			this.player_turn = Constants.PLAYER_1;
 	}
 
 	// A 'Minion' can only move in odd number of cells,
@@ -224,23 +230,28 @@ public class Pivit {
 	public void movePiece(Piece piece, int distance) {
 		if (isPossibleMove(piece, distance)) {
 			Piece destPiece;
-			if (piece.getDirection().equals(Constants.HORIZONTAL)) destPiece = getPiece(piece.getX() + distance, piece.getY());
-			else destPiece = getPiece(piece.getX(), piece.getY() + distance);
+			if (piece.getDirection().equals(Constants.HORIZONTAL))
+				destPiece = getPiece(piece.getX() + distance, piece.getY());
+			else
+				destPiece = getPiece(piece.getX(), piece.getY() + distance);
 
 			if (destPiece != null) {
 				removePiece(destPiece);
-				if (isEnd()) System.exit(1);
+				if (isEnd())
+					System.exit(1);
 			}
 
-			if (piece.getDirection() == Constants.HORIZONTAL) piece.setX(piece.getX() + distance);
-			else piece.setY(piece.getY() + distance);
+			if (piece.getDirection() == Constants.HORIZONTAL)
+				piece.setX(piece.getX() + distance);
+			else
+				piece.setY(piece.getY() + distance);
 
 			piece.rotate();
 
 			if (isInCorner(piece)) {
 				piece.promote();
-				if (firstPromotePlayer == null)
-					firstPromotePlayer = piece.getPlayer();
+				if (this.firstPromotePlayer == null)
+					this.firstPromotePlayer = piece.getPlayer();
 				if (isEnd())
 					System.exit(1);
 			}
@@ -291,13 +302,35 @@ public class Pivit {
 		}
 	}
 
-	public Constants.GameState run() {
-		this.printBoard();
-		Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-		A.generateChildMoves(A.startMove, A.maxDepth);
-		//A.printMoves(A.startMove, A.maxDepth);
-		System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+	private Constants.GameState Play_Player() {
+		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
 
-		return Constants.GameState.MENU_STATE;
+		return gameState;
+	}
+
+	public Constants.GameState run() {
+		Constants.GameState gameState = Constants.GameState.MAINGAME_STATE;
+
+		if (this.gameMode == Constants.GameMode.PVB) {
+			System.out.println("Player VS Bot Mode");
+			// this.printBoard();
+			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+			// A.generateChildMoves(A.startMove, A.maxDepth);
+			// // A.printMoves(A.startMove, A.maxDepth);
+			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+		} else if (this.gameMode == Constants.GameMode.BVB) {
+			System.out.println("Bot VS Bot Mode");
+			// this.printBoard();
+			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+			// A.generateChildMoves(A.startMove, A.maxDepth);
+			// // A.printMoves(A.startMove, A.maxDepth);
+			// System.out.println(Minimax.minimax(A.maxDepth, A.startMove, Integer.MIN_VALUE, Integer.MAX_VALUE, true));
+		} else if (this.gameMode == Constants.GameMode.PVP) {
+			System.out.println("Player VS Player Mode");
+			this.printBoard();
+			System.out.println(Constants.PLAYER_1 + " Player's turn");
+		}
+
+		return gameState;
 	}
 }
