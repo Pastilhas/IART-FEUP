@@ -22,5 +22,5 @@ In this project we are going to develop an AI that is capable of playing Pivit u
 ---
 
 ### How to run
-``javac *.java ``
+``javac *.java ``<br>
 ``java Game ``
