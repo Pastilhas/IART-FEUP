@@ -168,8 +168,8 @@ public class Pivit {
 	}
 
 	public void switchTurn() {
-		if(player_turn.equals("GREEN")) player_turn = "YELLOW";
-		else player_turn = "GREEN";
+		if(player_turn.equals(Constants.PLAYER_1)) player_turn = Constants.PLAYER_2;
+		else player_turn = Constants.PLAYER_1;
 	}
 
 	// A 'Minion' can only move in odd number of cells,
