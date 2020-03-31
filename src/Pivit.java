@@ -273,17 +273,20 @@ public class Pivit {
 	}
 
 	// prints board
-	public void printBoard() {
-		System.out.println();
-		System.out.println("   | 0 | 1 | 2 | 3 | 4 | 5 |");
-
+	public void printBoard() {		
+		String upperLine = "   | 0 | 1 | 2 | 3 | 4 | 5 |";
 		String separatorLine = "   +---+---+---+---+---+---+";
 		String separatorLeft = "| ";
 		String separatorRight = " ";
+
+		System.out.println();
+
 		if (this.size == 8) {
 			separatorLine += "---+---+";
-			System.out.println("| 6 | 7 |");
+			upperLine += " 6 | 7 |";
 		}
+
+		System.out.println(upperLine);
 
 		for (int y = 0; y < this.size; y++) {
 			System.out.println(separatorLine);
@@ -312,12 +315,6 @@ public class Pivit {
 		}
 		System.out.println(separatorLine);
 		System.out.println();
-	}
-
-	public void debugBoard() {
-		for (Piece p : this.board) {
-			p.debug();
-		}
 	}
 
 	// loop where player vs player runs
@@ -391,7 +388,6 @@ public class Pivit {
 			bestMove = B.getBestMove();
 			Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
 			movePiece(pp, bestMove.getDistance());
-			System.out.println(bestMove);
 
 		} while (!this.isGameOver());
 
@@ -411,7 +407,6 @@ public class Pivit {
 			Move bestMove = A.getBestMove();
 			Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
 			movePiece(pp, bestMove.getDistance());
-			System.out.println(bestMove);
 
 			this.printBoard();
 
@@ -425,7 +420,6 @@ public class Pivit {
 			bestMove = B.getBestMove();
 			pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
 			movePiece(pp, bestMove.getDistance());
-			System.out.println(bestMove);
 
 			this.switchTurn();
 			this.printBoard();
