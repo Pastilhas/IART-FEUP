@@ -307,15 +307,15 @@ public class Pivit {
 		String winner;
 
 		this.printBoard();
-		System.out.println(Constants.PLAYER_1 + " Player's turn");
-
-		coordinates = Input.getCoordinates();
-		playPiece = this.getPiece(coordinates[0], coordinates[1]);
 
 		do {
+			System.out.println(this.player_turn + " Player's turn");
+			coordinates = Input.getCoordinates();
+			playPiece = this.getPiece(coordinates[0], coordinates[1]);
 			while (playPiece == null) {
 				System.out.println("There isn't a " + this.player_turn + " piece there.");
 				coordinates = Input.getCoordinates();
+				playPiece = this.getPiece(coordinates[0], coordinates[1]);
 			}
 			distance = Input.getDistance();
 			while (this.isPossibleMove(playPiece, distance) == false) {
@@ -326,7 +326,6 @@ public class Pivit {
 			winner = this.player_turn;
 			this.switchTurn();
 			this.printBoard();
-			System.out.println(this.player_turn + " Player's turn");
 
 		} while (!this.isGameOver());
 
