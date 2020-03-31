@@ -337,13 +337,97 @@ public class Pivit {
 	}
 
 	// loop where player vs bot runs
+	// first player is human
+	// second player is bot
 	private Constants.GameState PlayBot() {
+		int[] coordinates = new int[2];
+		Piece playPiece;
+		int distance;
+		String winner;
+
+		Minimax Bot = new Minimax(Constants.PLAYER_2, new Pivit(this));
+		Move bestMove;
+		Piece botPiece;
+
+		this.printBoard();
+
+		do {
+			System.out.println(this.player_turn + " Player's turn");
+			if (this.player_turn == Constants.PLAYER_1) {
+				coordinates = Input.getCoordinates();
+				playPiece = this.getPiece(coordinates[0], coordinates[1]);
+				while (playPiece == null || playPiece.getPlayer() != this.player_turn) {
+					System.out.println("There isn't a " + this.player_turn + " piece there.");
+					coordinates = Input.getCoordinates();
+					playPiece = this.getPiece(coordinates[0], coordinates[1]);
+				}
+				distance = Input.getDistance();
+				while (this.isPossibleMove(playPiece, distance) == false) {
+					System.out.println("That piece can't move there.");
+					distance = Input.getDistance();
+				}
+				this.movePiece(playPiece, distance);
+			}
+			winner = this.player_turn;
+			this.switchTurn();
+			this.printBoard();
+
+			Bot.generateChildMoves(Bot.startMove, Bot.maxDepth);
+			bestMove = Bot.getBestMove();
+			botPiece = this.getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
+			this.movePiece(botPiece, bestMove.getDistance());
+			// System.out.println(bestMove);
+			this.printBoard();
+
+		} while (!this.isGameOver());
+
+		System.out.println(winner + " PLAYER WINS!");
+		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
+
 	}
 
 	// loop where bot vs bot runs
 	private Constants.GameState PlayBotBot() {
+		String winner;
+
+		Minimax BotBoss = new Minimax(Constants.PLAYER_1, new Pivit(this));
+		Minimax BotChief = new Minimax(Constants.PLAYER_2, new Pivit(this));
+		Move BossMove;
+		Move ChiefMove;
+		Piece BossPiece;
+		Piece ChiefPiece;
+
+		this.printBoard();
+
+		do {
+			System.out.println(this.player_turn + " Player's turn");
+
+			BotBoss.generateChildMoves(BotBoss.startMove, BotBoss.maxDepth);
+			BossMove = BotBoss.getBestMove();
+			BossPiece = this.getPiece(BossMove.getPiece().getX(), BossMove.getPiece().getY());
+			this.movePiece(BossPiece, BossMove.getDistance());
+			this.printBoard();
+
+			winner = this.player_turn;
+			this.switchTurn();
+			this.printBoard();
+
+
+			BotChief.generateChildMoves(BotChief.startMove, BotChief.maxDepth);
+			ChiefMove = BotChief.getBestMove();
+			ChiefPiece = this.getPiece(ChiefMove.getPiece().getX(), ChiefMove.getPiece().getY());
+			this.movePiece(ChiefPiece, ChiefMove.getDistance());
+
+			winner = this.player_turn;
+			this.switchTurn();
+			this.printBoard();
+
+		} while (!this.isGameOver());
+
+		System.out.println(winner + " PLAYER WINS!");
+		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
 	}
@@ -354,23 +438,9 @@ public class Pivit {
 			System.out.println("Player VS Bot Mode");
 			this.PlayBot();
 
-			// Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-			// A.generateChildMoves(A.startMove, A.maxDepth);
-			// Move bestMove = A.getBestMove();
-			// Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-			// movePiece(pp, bestMove.getDistance());
-			// System.out.println(bestMove);
-
 		} else if (this.gameMode == Constants.GameMode.BVB) {
 			System.out.println("Bot VS Bot Mode");
 			this.PlayBotBot();
-
-			// Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
-			// B.generateChildMoves(B.startMove, B.maxDepth);
-			// Move bestMove = B.getBestMove();
-			// Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-			// movePiece(pp, bestMove.getDistance());
-			// System.out.println(bestMove);
 
 		} else if (this.gameMode == Constants.GameMode.PVP) {
 			System.out.println("Player VS Player Mode");
