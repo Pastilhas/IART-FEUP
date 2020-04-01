@@ -200,6 +200,29 @@ public class Pivit {
   }
 
   /**
+   * Get the player who has won the match
+   * @return name of the player who won
+   */
+	public String checkWinner() {
+		int player_1_Masters = 0;
+		int player_2_Masters = 0;
+
+		for (Piece piece : board) {
+			if (piece.getType().equals(Constants.MASTER) && piece.getPlayer() == Constants.PLAYER_1)
+				player_1_Masters++;
+			if (piece.getType().equals(Constants.MASTER) && piece.getPlayer() == Constants.PLAYER_2)
+				player_2_Masters++;
+		}
+
+		if (player_1_Masters > player_2_Masters)
+			return Constants.PLAYER_1;
+		else if (player_2_Masters > player_1_Masters)
+			return Constants.PLAYER_2;
+		else
+			return this.firstPromotePlayer;
+	}
+
+  /**
    * Switch player turn
    */
   public void switchTurn() {
@@ -300,12 +323,16 @@ public class Pivit {
    * Print the board on the terminal
    */
   public void printBoard() {
-    String separatorLine = "+---+---+---+---+---+---+";
+		String upperLine = "   | 0 | 1 | 2 | 3 | 4 | 5 |";
+		String separatorLine = "   +---+---+---+---+---+---+";
     String separatorLeft = "| ";
     String separatorRight = " ";
     if (this.size == 8) {
       separatorLine += "---+---+";
+			upperLine += " 6 | 7 |";
     }
+		System.out.println();
+		System.out.println(upperLine);
 
     for (int y = 0; y < this.size; y++) {
       System.out.println(separatorLine);
@@ -330,9 +357,10 @@ public class Pivit {
         line += separatorRight;
       }
       line += separatorLeft;
-      System.out.println(line);
+			System.out.println(y + "  " + line);
     }
     System.out.println(separatorLine);
+		System.out.println();
   }
 
   /**
@@ -465,18 +493,15 @@ public class Pivit {
       pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
       movePiece(pp, bestMove.getDistance());
       System.out.println(bestMove);
+			this.switchTurn();
 
-      winner = this.player_turn;
-      this.switchTurn();
-      this.printBoard();
+		} while (!this.isGameOver());
 
-    } while (!this.isGameOver());
+		System.out.println(checkWinner() + " PLAYER WINS!");
+		this.gameState = Constants.GameState.MENU_STATE;
 
-    System.out.println(winner + " PLAYER WINS!");
-    this.gameState = Constants.GameState.MENU_STATE;
-
-    return this.gameState;
-  }
+		return this.gameState;
+	}
 
   /**
    * Chooses what game loop to run based on game mode
@@ -488,15 +513,15 @@ public class Pivit {
       System.out.println("Player VS Bot Mode");
       this.PlayBot();
 
-    } else if (this.gameMode == Constants.GameMode.BVB) {
-      System.out.println("Bot VS Bot Mode");
-      this.PlayBotBot();
+		} else if (this.gameMode == Constants.GameMode.BVB) {
+			System.out.println("Bot VS Bot Mode");
+			this.PlayBotBot();
 
-    } else if (this.gameMode == Constants.GameMode.PVP) {
-      System.out.println("Player VS Player Mode");
-      this.PlayPlayer();
-    }
+		} else if (this.gameMode == Constants.GameMode.PVP) {
+			System.out.println("Player VS Player Mode");
+			this.PlayPlayer();
+		}
 
-    return this.gameState;
-  }
+		return this.gameState;
+	}
 }
