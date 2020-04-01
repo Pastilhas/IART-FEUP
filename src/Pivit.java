@@ -470,8 +470,6 @@ public class Pivit {
    * @return
    */
   private Constants.GameState PlayBotBot() {
-    String winner;
-
     do {
       this.printBoard();
       Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
@@ -481,7 +479,6 @@ public class Pivit {
       movePiece(pp, bestMove.getDistance());
       System.out.println(bestMove);
 
-      winner = this.player_turn;
       this.printBoard();
       if (isGameOver())
         break;
