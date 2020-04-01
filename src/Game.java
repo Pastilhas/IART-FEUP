@@ -2,7 +2,7 @@ public class Game {
 	/**
 	 * Main function, game entry point
 	 */
-	public static void main() throws Exception {
+	public static void main(String args[]) throws Exception {
 
 		int size = 0;
 		Constants.GameMode gameMode = Constants.GameMode.PVP;
