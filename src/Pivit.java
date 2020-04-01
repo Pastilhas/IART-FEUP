@@ -9,6 +9,12 @@ public class Pivit {
   private ArrayList<Piece> board = new ArrayList<>();
   private ArrayList<Piece> captured = new ArrayList<>();
 
+  /**
+   * Pivit class constructor
+   *
+   * @param size     size of board (6 or 8)
+   * @param gameMode game mode can be PvP, PvB or BvB
+   */
   public Pivit(int size, Constants.GameMode gameMode) {
     this.size = size;
     this.gameMode = gameMode;
@@ -22,6 +28,11 @@ public class Pivit {
     }
   }
 
+  /**
+   * Pivit copy constructor
+   *
+   * @param game game state to copy
+   */
   public Pivit(Pivit game) {
     this.board = new ArrayList<>();
     for (Piece p : game.board) {
@@ -50,8 +61,9 @@ public class Pivit {
     return this.captured;
   }
 
-  // this board generator is only valid for 2 players
-  // "for learning or fast games"
+  /**
+   * Generate 6x6 board
+   */
   public void generateBoard_6() {
     // 5 = 6 (size) - 1
 
@@ -86,7 +98,9 @@ public class Pivit {
     return;
   }
 
-  // this board generator is only valid for 2 players
+  /**
+   * Generate 8x8 board
+   */
   public void generateBoard_8_Players_2() {
     // 7 = 8 (size) - 1
 
@@ -129,7 +143,13 @@ public class Pivit {
     return;
   }
 
-  // checks if the piece exists in the board
+  /**
+   * Get piece in position x and y
+   *
+   * @param x x position of piece to find
+   * @param y y position of piece to find
+   * @return piece if exists, otherwise null
+   */
   public Piece getPiece(int x, int y) {
     for (Piece piece : this.board) {
       if (piece.getX() == x && piece.getY() == y)
@@ -138,14 +158,22 @@ public class Pivit {
     return null;
   }
 
-  // removes a piece from the board
-  // and adds it to the captured list
+  /**
+   * Remove piece from board and place it in captured list
+   *
+   * @param p piece to move from board to captured
+   */
   public void removePiece(Piece p) {
     this.captured.add(p);
     this.board.remove(p);
   }
 
-  // checks if the piece is in the corner, by verifying it's coordinates
+  /**
+   * Check if piece is in one of the corners
+   *
+   * @param piece piece to check
+   * @return true if piece is in a corner, false otherwise
+   */
   public boolean isInCorner(Piece piece) {
     if (piece.getX() == 0 && piece.getY() == 0)
       return true;
@@ -158,12 +186,11 @@ public class Pivit {
     return false;
   }
 
-  // // checks if any player still has any pieces
-  // public boolean hasPiecesLeft(String player){
-  // return false;
-  // }
-
-  // checks if the end conditions are met
+  /**
+   * Check if game has reach final state
+   *
+   * @return true if game is in final state, false otherwise
+   */
   public boolean isGameOver() {
     for (Piece piece : board) {
       if (piece.getType().equals(Constants.MINION))
@@ -172,7 +199,9 @@ public class Pivit {
     return true;
   }
 
-  // changes player's turn
+  /**
+   * Switch player turn
+   */
   public void switchTurn() {
     if (player_turn.equals(Constants.PLAYER_1))
       this.player_turn = Constants.PLAYER_2;
@@ -180,9 +209,13 @@ public class Pivit {
       this.player_turn = Constants.PLAYER_1;
   }
 
-  // A 'Minion' can only move in odd number of cells,
-  // the same is not true for a 'Master'.
-  // Nor 'Minion' nor 'Master' can jump over other pieces
+  /**
+   * Check if move with given piece and distance is possible
+   *
+   * @param piece    piece to move
+   * @param distance distance to move
+   * @return true if piece can move distance, false otherwise
+   */
   public boolean isPossibleMove(Piece piece, int distance) {
     if (piece.getPlayer().equals(this.player_turn)) {
       if (piece.getDirection().equals(Constants.HORIZONTAL)) {
@@ -229,6 +262,12 @@ public class Pivit {
     return false;
   }
 
+  /**
+   * Move piece a given distance
+   *
+   * @param piece    piece to move
+   * @param distance distance to move
+   */
   public void movePiece(Piece piece, int distance) {
     if (this.isPossibleMove(piece, distance)) {
       Piece destPiece;
@@ -257,7 +296,9 @@ public class Pivit {
     }
   }
 
-  // prints board
+  /**
+   * Print the board on the terminal
+   */
   public void printBoard() {
     String separatorLine = "+---+---+---+---+---+---+";
     String separatorLeft = "| ";
@@ -294,13 +335,20 @@ public class Pivit {
     System.out.println(separatorLine);
   }
 
+  /**
+   * Print all pieces in the board
+   */
   public void debugBoard() {
     for (Piece p : this.board) {
       p.debug();
     }
   }
 
-  // loop where player vs player runs
+  /**
+   * Game loop for PvP game mode
+   *
+   * @return
+   */
   private Constants.GameState PlayPlayer() {
     int[] coordinates = new int[2];
     Piece playPiece;
@@ -336,39 +384,11 @@ public class Pivit {
     return this.gameState;
   }
 
-  // public Constants.GameState run() {
-
-  //   while (!isGameOver()) {
-  //     this.printBoard();
-  //     if (gameMode == Constants.GameMode.BVB) {
-  //       Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-  //       A.generateChildMoves(A.startMove, A.maxDepth);
-  //       Move bestMove = A.getBestMove();
-  //       Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-  //       movePiece(pp, bestMove.getDistance());
-  //       System.out.println(bestMove);
-  //     } else if (gameMode == Constants.GameMode.PVB || gameMode == Constants.GameMode.PVP) {
-  //       // player faz move
-  //     }
-  //     if (gameMode == Constants.GameMode.BVB || gameMode == Constants.GameMode.PVB) {
-  //       Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
-  //       B.generateChildMoves(B.startMove, B.maxDepth);
-  //       Move bestMove = B.getBestMove();
-  //       Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-  //       movePiece(pp, bestMove.getDistance());
-  //       System.out.println(bestMove);
-
-  //     } else if (gameMode == Constants.GameMode.PVP) {
-  //       // player faz move
-  //     }
-
-  //   }
-  //   return Constants.GameState.MENU_STATE;
-  // }
-
-  // loop where player vs bot runs
-  // first player is human
-  // second player is bot
+  /**
+   * Game loop for PvB game mode
+   *
+   * @return
+   */
   private Constants.GameState PlayBot() {
     int[] coordinates = new int[2];
     Piece playPiece;
@@ -401,11 +421,11 @@ public class Pivit {
       this.printBoard();
 
       Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
-  		B.generateChildMoves(B.startMove, B.maxDepth);
-  		 bestMove = B.getBestMove();
-  		Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-  		movePiece(pp, bestMove.getDistance());
-  		System.out.println(bestMove);
+      B.generateChildMoves(B.startMove, B.maxDepth);
+      bestMove = B.getBestMove();
+      Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
+      movePiece(pp, bestMove.getDistance());
+      System.out.println(bestMove);
 
     } while (!this.isGameOver());
 
@@ -416,30 +436,35 @@ public class Pivit {
 
   }
 
-  // loop where bot vs bot runs
+  /**
+   * Game loop for BvB game mode
+   *
+   * @return
+   */
   private Constants.GameState PlayBotBot() {
     String winner;
 
     do {
-	    this.printBoard();
-			Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
-			A.generateChildMoves(A.startMove, A.maxDepth);
-      Move bestMove = A.getBestMove();
-  		Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
-  		movePiece(pp, bestMove.getDistance());
-  	  System.out.println(bestMove);
-
-			winner = this.player_turn;
       this.printBoard();
-			if(isGameOver()) break;
-			this.switchTurn();
+      Minimax A = new Minimax(Constants.PLAYER_1, new Pivit(this));
+      A.generateChildMoves(A.startMove, A.maxDepth);
+      Move bestMove = A.getBestMove();
+      Piece pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
+      movePiece(pp, bestMove.getDistance());
+      System.out.println(bestMove);
+
+      winner = this.player_turn;
+      this.printBoard();
+      if (isGameOver())
+        break;
+      this.switchTurn();
 
       Minimax B = new Minimax(Constants.PLAYER_2, new Pivit(this));
       B.generateChildMoves(B.startMove, B.maxDepth);
       bestMove = B.getBestMove();
       pp = getPiece(bestMove.getPiece().getX(), bestMove.getPiece().getY());
       movePiece(pp, bestMove.getDistance());
-			System.out.println(bestMove);
+      System.out.println(bestMove);
 
       winner = this.player_turn;
       this.switchTurn();
@@ -453,7 +478,11 @@ public class Pivit {
     return this.gameState;
   }
 
-  // 'main' function of Pivit.java
+  /**
+   * Chooses what game loop to run based on game mode
+   *
+   * @return
+   */
   public Constants.GameState run() {
     if (this.gameMode == Constants.GameMode.PVB) {
       System.out.println("Player VS Bot Mode");

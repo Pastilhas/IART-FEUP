@@ -1,11 +1,11 @@
 import java.io.Console;
 
 public class Input {
-
-    // public static void main(String[] args) {
-    // getMenuOption();
-    // }
-
+    /**
+     * Get user input for menu
+     *
+     * @return character written by user
+     */
     public static char getMenuOption() {
         char selection;
         Console console = System.console();
@@ -17,6 +17,11 @@ public class Input {
 
     }
 
+    /**
+     * Get coordinates from user input
+     *
+     * @return array of coordinates
+     */
     public static int[] getCoordinates() {
         Console console = System.console();
         int[] coordinates = new int[2];
@@ -43,6 +48,11 @@ public class Input {
         }
     }
 
+    /**
+     * Get distance from user input
+     *
+     * @return integer representing distance
+     */
     public static int getDistance() {
         Console console = System.console();
         int distance;

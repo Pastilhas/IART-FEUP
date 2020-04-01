@@ -3,9 +3,14 @@ public class Piece {
     private int x, y;
     private String player, direction, type;
 
-    /*
-     * "x" and "y", coordinates of the piece "player", player 1 or 2 "direction",
-     * horizontal or vertical "type", minion or master
+    /**
+     * Constructor for Piece class
+     *
+     * @param x         x position of piece
+     * @param y         y position of piece
+     * @param player    player that owns the piece
+     * @param direction direction the piece can move (x or y)
+     * @param type      type of piece (minion or master)
      */
     public Piece(int x, int y, String player, String direction, String type) {
         this.x = x;
@@ -15,7 +20,12 @@ public class Piece {
         this.type = type;
     }
 
-    public Piece(Piece p){
+    /**
+     * Copy constructor
+     *
+     * @param p piece to copy
+     */
+    public Piece(Piece p) {
         this.x = p.x;
         this.y = p.y;
         this.player = p.player;
@@ -117,6 +127,6 @@ public class Piece {
 
     @Override
     public String toString() {
-        return "Piece("+x+","+y+","+direction+","+player+","+type+")";
+        return "Piece(" + x + "," + y + "," + direction + "," + player + "," + type + ")";
     }
 }

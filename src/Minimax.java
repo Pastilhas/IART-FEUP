@@ -6,6 +6,16 @@ public class Minimax {
 	Pivit currentGameState_;
 	static int move_id = 0;
 
+	/**
+	 * Calculate highest value of board in the final depth of the tree
+	 *
+	 * @param depth depth of search
+	 * @param node  starting node
+	 * @param alpha -infinity (Integer.MIN_VALUE)
+	 * @param beta  +infinity (Integer.MAX_VALUE)
+	 * @param isMax if it is Max's turn or not
+	 * @return highest value in last depth of tree
+	 */
 	static public int minimax(int depth, Move node, int alpha, int beta, boolean isMax) {
 		if (depth == 0 || node.getChildren().isEmpty()) {
 			return node.getReward();
@@ -34,6 +44,12 @@ public class Minimax {
 		}
 	}
 
+	/**
+	 * Constructor of Minimax class
+	 *
+	 * @param pl   player the objeect is playing for
+	 * @param game current state of the game
+	 */
 	public Minimax(String pl, Pivit game) {
 		player = pl;
 		startMove = new Move(-1, 0, game, null, 0);
@@ -41,6 +57,11 @@ public class Minimax {
 		currentGameState = game;
 	}
 
+	/**
+	 * Get best move to follow in current round
+	 *
+	 * @return move to use
+	 */
 	public Move getBestMove() {
 		Move bestMove = null;
 		int max_x = Integer.MIN_VALUE;
@@ -54,6 +75,12 @@ public class Minimax {
 		return bestMove;
 	}
 
+	/**
+	 * Generate a tree of moves from starting move to defined depth
+	 *
+	 * @param move  starting move
+	 * @param depth depth of search
+	 */
 	public void generateChildMoves(Move move, int depth) {
 		if (depth == 0) {
 			return;
@@ -81,6 +108,12 @@ public class Minimax {
 		}
 	}
 
+	/**
+	 * Get value of board state
+	 *
+	 * @param game board to evaluate
+	 * @return value of the board
+	 */
 	public int getValue(Pivit game) {
 		int value = 0;
 		for (Piece p : game.getCaptured()) {
@@ -108,6 +141,12 @@ public class Minimax {
 		return value;
 	}
 
+	/**
+	 * Print the tree of generated moves
+	 *
+	 * @param move  starting node
+	 * @param depth depth of node
+	 */
 	public void printMoves(Move move, int depth) {
 		System.out.println(new String(new char[maxDepth - depth]).replace("\0", "--") + move);
 		for (Move m : move.getChildren()) {

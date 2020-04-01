@@ -1,7 +1,8 @@
-import java.io.IOException;
-
 public class Game {
-	public static void main(String[] args) throws InterruptedException, IOException {
+	/**
+	 * Main function, game entry point
+	 */
+	public static void main() throws Exception {
 
 		int size = 0;
 		Constants.GameMode gameMode = Constants.GameMode.PVP;
