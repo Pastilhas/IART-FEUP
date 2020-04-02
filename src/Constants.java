@@ -33,6 +33,12 @@ public final class Constants {
     public static final String MASTER_HORIZONTAL = "=";
     public static final String MASTER_VERTICAL = "!";
 
+    // public static final String MINION_HORIZONTAL = "↔";
+    // public static final String MINION_VERTICAL = "↕";
+
+    // public static final String MASTER_HORIZONTAL = "⇆";
+    // public static final String MASTER_VERTICAL = "⇅";
+
     // Direction
     public static final String HORIZONTAL = "x";
     public static final String VERTICAL = "y";
