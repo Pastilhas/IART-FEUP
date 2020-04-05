@@ -1,17 +1,23 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Menu {
 
     private Constants.GameState state = Constants.GameState.MENU_STATE;
 
-    public Menu() throws IOException {
+    /**
+     * Menu class constructor
+     *
+     * @throws Exception
+     */
+    public Menu() throws Exception {
         this.drawTitle();
         this.drawOptions();
     }
 
-    // Writes 'Pivit' on the console
+    /**
+     * Draw PIVIT title on the terminal
+     */
     private void drawTitle() {
         int width = 100;
         int height = 30;
@@ -41,6 +47,9 @@ public class Menu {
 
     }
 
+    /**
+     * Draw menu on the terminal
+     */
     private void drawOptions() {
         System.out.println("**************************************************************");
 
@@ -53,6 +62,11 @@ public class Menu {
         System.out.println("0 - Quit");
     }
 
+    /**
+     * Wait for user input
+     *
+     * @return user input
+     */
     public char getOption() {
         return Input.getMenuOption();
     }
