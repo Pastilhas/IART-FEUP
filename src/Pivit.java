@@ -203,7 +203,7 @@ public class Pivit {
    * Get the player who has won the match
    * @return name of the player who won
    */
-	public String checkWinner() {
+	public String getWinner() {
 		int player_1_Masters = 0;
 		int player_2_Masters = 0;
 
@@ -381,7 +381,6 @@ public class Pivit {
     int[] coordinates = new int[2];
     Piece playPiece;
     int distance;
-    String winner;
 
     this.printBoard();
 
@@ -400,13 +399,12 @@ public class Pivit {
         distance = Input.getDistance();
       }
       this.movePiece(playPiece, distance);
-      winner = this.player_turn;
       this.switchTurn();
       this.printBoard();
 
     } while (!this.isGameOver());
 
-    System.out.println(winner + " PLAYER WINS!");
+    System.out.println(getWinner() + " PLAYER WINS!");
     this.gameState = Constants.GameState.MENU_STATE;
 
     return this.gameState;
@@ -421,7 +419,6 @@ public class Pivit {
     int[] coordinates = new int[2];
     Piece playPiece;
     int distance;
-    String winner;
 
     Move bestMove;
 
@@ -444,7 +441,6 @@ public class Pivit {
         }
         this.movePiece(playPiece, distance);
       }
-      winner = this.player_turn;
       this.switchTurn();
       this.printBoard();
 
@@ -457,7 +453,7 @@ public class Pivit {
 
     } while (!this.isGameOver());
 
-    System.out.println(winner + " PLAYER WINS!");
+    System.out.println(getWinner() + " PLAYER WINS!");
     this.gameState = Constants.GameState.MENU_STATE;
 
     return this.gameState;
@@ -494,7 +490,7 @@ public class Pivit {
 
 		} while (!this.isGameOver());
 
-		System.out.println(checkWinner() + " PLAYER WINS!");
+		System.out.println(getWinner() + " PLAYER WINS!");
 		this.gameState = Constants.GameState.MENU_STATE;
 
 		return this.gameState;
